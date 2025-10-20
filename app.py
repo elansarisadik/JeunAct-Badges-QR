@@ -146,15 +146,15 @@ def generate_qr(member_id):
     member = Member.query.get_or_404(member_id)
     
     # URL complète vers le profil du membre
-    # En production, utilise l'URL configurée dans les variables d'environnement
+    # Utilise votre IP locale pour les QR codes
     if os.environ.get('PRODUCTION_URL'):
         base_url = os.environ.get('PRODUCTION_URL')
     else:
-        base_url = request.url_root.rstrip('/')
+        base_url = 'http://192.168.1.9:5000'
     
     profile_url = f"{base_url}/member/{member_id}"
     
-    # Génération du QR code
+    # Génération du QR code avec texte personnalisé
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,

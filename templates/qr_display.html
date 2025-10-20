@@ -10,6 +10,10 @@
                 <h2 class="mb-4" style="color: white;"><i class="fas fa-qrcode me-2"></i>QR Code de {{ member.full_name }}</h2>
                 
                 <div class="mb-4 p-4" style="background: white; border-radius: 15px; display: inline-block;">
+                    <div class="text-center mb-2">
+                        <h6 style="color: #8B1538; font-weight: bold; margin: 0;">JeunAct</h6>
+                        <small style="color: #666;">Badge Numérique</small>
+                    </div>
                     <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code" class="img-fluid" style="max-width: 300px;">
                 </div>
                 
@@ -23,9 +27,9 @@
                 </div>
                 
                 <div class="mb-4">
-                    <h6 style="color: white;">URL du profil :</h6>
+                    <h6 style="color: white;">Lien du profil :</h6>
                     <div class="input-group">
-                        <input type="text" class="form-control" value="{{ profile_url }}" readonly id="profileUrl"
+                        <input type="text" class="form-control" value="JeunAct - {{ member.full_name }}" readonly id="profileUrl"
                                style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
                         <button class="btn" type="button" onclick="copyToClipboard()"
                                 style="background: rgba(255,255,255,0.9); color: #8B1538; border: 1px solid rgba(255,255,255,0.3);">
@@ -50,23 +54,22 @@
 
 <script>
 function copyToClipboard() {
-    const urlInput = document.getElementById('profileUrl');
-    urlInput.select();
-    urlInput.setSelectionRange(0, 99999);
-    document.execCommand('copy');
-    
-    // Afficher une notification
-    const button = event.target.closest('button');
-    const originalText = button.innerHTML;
-    button.innerHTML = '<i class="fas fa-check"></i>';
-    button.style.background = '#25D366';
-    button.style.color = 'white';
-    
-    setTimeout(() => {
-        button.innerHTML = originalText;
-        button.style.background = 'rgba(255,255,255,0.9)';
-        button.style.color = '#8B1538';
-    }, 2000);
+    // Copier l'URL réelle du profil
+    const profileUrl = '{{ profile_url }}';
+    navigator.clipboard.writeText(profileUrl).then(function() {
+        // Afficher une notification
+        const button = event.target.closest('button');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-check"></i>';
+        button.style.background = '#25D366';
+        button.style.color = 'white';
+        
+        setTimeout(() => {
+            button.innerHTML = originalText;
+            button.style.background = 'rgba(255,255,255,0.9)';
+            button.style.color = '#8B1538';
+        }, 2000);
+    });
 }
 </script>
 {% endblock %}
