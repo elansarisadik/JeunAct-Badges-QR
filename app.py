@@ -6,6 +6,7 @@ import io
 import base64
 import os
 from dotenv import load_dotenv
+from config import Config
 
 load_dotenv()
 
@@ -14,13 +15,17 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-i
 
 # Configuration de la base de données pour la production
 if os.environ.get('DATABASE_URL'):
-    # Production (Railway, Heroku, etc.)
+    # Production (Railway, Heroku, Cloudflare Workers, etc.)
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 else:
     # Développement local
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jeunact_members.db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Configuration spécifique pour Cloudflare Workers
+if Config.is_cloudflare():
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = Config.SQLALCHEMY_ENGINE_OPTIONS
 
 db = SQLAlchemy(app)
 
@@ -145,12 +150,8 @@ def delete_member(member_id):
 def generate_qr(member_id):
     member = Member.query.get_or_404(member_id)
     
-    # URL complète vers le profil du membre
-    # Utilise votre IP locale pour les QR codes
-    if os.environ.get('PRODUCTION_URL'):
-        base_url = os.environ.get('PRODUCTION_URL')
-    else:
-        base_url = 'http://192.168.1.9:5000'
+    # CORRECTION ICI : Utilise toujours l'URL de production
+    base_url = Config.get_base_url()
     
     profile_url = f"{base_url}/member/{member_id}"
     
