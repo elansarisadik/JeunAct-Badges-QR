@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}JeunAct - Administration{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 style="color: #8B1538;"><i class="fas fa-cog me-2"></i>Administration des Membres</h2>
+    <a href="{{ url_for('add_member') }}" class="btn" style="background: #8B1538; color: white; border: none; border-radius: 25px; padding: 10px 25px; font-weight: 500;">
+        <i class="fas fa-plus me-2"></i>Ajouter un Membre
+    </a>
+</div>
+
+{% if members %}
+<div class="row">
+    {% for member in members %}
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card member-card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <h5 class="card-title mb-0" style="color: white;">{{ member.full_name }}</h5>
+                    <span class="badge badge-role badge-{{ member.role.lower() }}">
+                        {{ member.role }}
+                    </span>
+                </div>
+                <p class="mb-2" style="color: rgba(255,255,255,0.8);">
+                    <i class="fas fa-hashtag me-1"></i>#{{ member.member_number }}
+                </p>
+                {% if member.email %}
+                <p class="mb-2" style="color: rgba(255,255,255,0.8);">
+                    <i class="fas fa-envelope me-1" style="color: #EA4335;"></i>{{ member.email }}
+                </p>
+                {% endif %}
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    {% if member.whatsapp %}
+                    <span class="badge" style="background: #25D366; color: white; border: none;">
+                        <i class="fab fa-whatsapp me-1"></i>WhatsApp
+                    </span>
+                    {% endif %}
+                    {% if member.instagram %}
+                    <span class="badge" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; border: none;">
+                        <i class="fab fa-instagram me-1"></i>Instagram
+                    </span>
+                    {% endif %}
+                    {% if member.linkedin %}
+                    <span class="badge" style="background: #0077b5; color: white; border: none;">
+                        <i class="fab fa-linkedin me-1"></i>LinkedIn
+                    </span>
+                    {% endif %}
+                </div>
+                <div class="btn-group w-100" role="group">
+                    <a href="{{ url_for('member_profile', member_id=member.id) }}" 
+                       class="btn btn-sm" target="_blank" style="background: white; color: #8B1538; border: none; font-weight: 500;">
+                        <i class="fas fa-eye me-1"></i>Voir
+                    </a>
+                    <a href="{{ url_for('generate_qr', member_id=member.id) }}" 
+                       class="btn btn-sm" style="background: rgba(255,255,255,0.9); color: #8B1538; border: none; font-weight: 500;">
+                        <i class="fas fa-qrcode me-1"></i>QR
+                    </a>
+                    <a href="{{ url_for('edit_member', member_id=member.id) }}" 
+                       class="btn btn-sm" style="background: rgba(255,255,255,0.8); color: #8B1538; border: none; font-weight: 500;">
+                        <i class="fas fa-edit me-1"></i>Modifier
+                    </a>
+                    <button type="button" class="btn btn-sm btn-delete" 
+                            style="background: rgba(220, 53, 69, 0.8); color: white; border: none; font-weight: 500;"
+                            data-bs-toggle="modal" data-bs-target="#deleteModal" 
+                            data-member-id="{{ member.id }}" data-member-name="{{ member.full_name }}">
+                        <i class="fas fa-trash me-1"></i>Supprimer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5">
+    <i class="fas fa-users fa-4x mb-4" style="color: #8B1538;"></i>
+    <h3 style="color: #8B1538;">Aucun membre trouvé</h3>
+    <p style="color: #666;">Commencez par ajouter votre premier membre.</p>
+    <a href="{{ url_for('add_member') }}" class="btn" style="background: linear-gradient(45deg, #8B1538, #E91E63); color: white; border: none; border-radius: 25px; padding: 10px 25px; font-weight: 500;">
+        <i class="fas fa-plus me-2"></i>Ajouter un Membre
+    </a>
+</div>
+{% endif %}
+
+<!-- Modal de confirmation de suppression -->
+<div class="modal fade custom-modal" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Confirmation de suppression
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="mb-4">
+                    <i class="fas fa-trash-alt fa-4x mb-3" style="color: rgba(255,255,255,0.7);"></i>
+                </div>
+                <h6 class="mb-3">Êtes-vous sûr de vouloir supprimer ce membre ?</h6>
+                <p class="mb-0" style="color: rgba(255,255,255,0.8);">
+                    Cette action est <strong>irréversible</strong> et supprimera définitivement toutes les données du membre.
+                </p>
+                <div class="alert alert-warning mt-3" style="background: rgba(255,193,7,0.2); border: 1px solid rgba(255,193,7,0.3); color: #ffc107;">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Membre concerné :</strong> <span id="memberName"></span>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-cancel me-3" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Annuler
+                </button>
+                <a href="#" id="confirmDeleteBtn" class="btn btn-confirm">
+                    <i class="fas fa-trash me-2"></i>Supprimer définitivement
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteModal = document.getElementById('deleteModal');
+    const memberNameSpan = document.getElementById('memberName');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const memberId = button.getAttribute('data-member-id');
+        const memberName = button.getAttribute('data-member-name');
+        
+        memberNameSpan.textContent = memberName;
+        confirmDeleteBtn.href = "{{ url_for('delete_member', member_id=0) }}".replace('0', memberId);
+    });
+    
+    // Animation pour les boutons de suppression
+    const deleteButtons = document.querySelectorAll('.btn-delete');
+    deleteButtons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px) scale(1.05)';
+            this.style.boxShadow = '0 5px 15px rgba(220, 53, 69, 0.4)';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.boxShadow = 'none';
+        });
+    });
+});
+</script>
+{% endblock %}

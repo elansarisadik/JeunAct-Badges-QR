@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JeunAct - Système de badges QR pour les membres de l'association">
+    <meta name="keywords" content="JeunAct, badges, QR code, association, membres">
+    <meta name="author" content="JeunAct">
+    <meta property="og:title" content="JeunAct - Badges QR">
+    <meta property="og:description" content="Système de badges QR pour les membres de l'association JeunAct">
+    <meta property="og:image" content="{{ url_for('static', filename='logo.png', _external=True) }}">
+    <meta property="og:type" content="website">
+    <title>{% block title %}JeunAct - Badges QR{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #FFFFFF;
+        min-height: 100vh;
+    }
+    .navbar {
+        background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%) !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .navbar-brand {
+        color: #FFFFFF !important;
+        font-weight: 700;
+    }
+    .navbar-nav .nav-link {
+        color: #FFFFFF !important;
+        font-weight: 500;
+    }
+    .navbar-nav .nav-link:hover {
+        color: rgba(255,255,255,0.8) !important;
+    }
+    .navbar-brand {
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+    .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        backdrop-filter: blur(10px);
+        background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%);
+        color: white;
+        transition: all 0.4s ease;
+        position: relative;
+    }
+    .btn-primary {
+        background: white;
+        color: #8B1538;
+        border: 2px solid #8B1538;
+        border-radius: 25px;
+        padding: 10px 25px;
+        font-weight: 500;
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        background: #8B1538;
+        color: white;
+    }
+    .badge-role {
+        font-size: 0.8rem;
+        padding: 8px 15px;
+        border-radius: 20px;
+    }
+    .badge-bureau {
+        background: white;
+        color: #8B1538;
+        border: 2px solid rgba(255,255,255,0.3);
+    }
+    .badge-membre {
+        background: rgba(255,255,255,0.2);
+        color: white;
+        border: 2px solid rgba(255,255,255,0.5);
+    }
+    .member-card {
+        transition: transform 0.3s ease;
+    }
+    .member-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+    .social-link {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 50px;
+        margin: 5px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+    .social-link:hover {
+        transform: scale(1.2) rotate(5deg);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        text-decoration: none;
+    }
+    .whatsapp { background: #25D366; color: white; }
+    .instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
+    .linkedin { background: #0077b5; color: white; }
+    .email { background: #ea4335; color: white; }
+    
+    /* Notifications personnalisées */
+    .custom-alert {
+        border: none;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+        animation: slideInDown 0.5s ease-out;
+    }
+    
+    .custom-alert::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        border-radius: 0 4px 4px 0;
+    }
+    
+    .custom-alert-success {
+        background: linear-gradient(135deg, rgba(40, 167, 69, 0.95), rgba(34, 197, 94, 0.95));
+        color: white;
+    }
+    
+    .custom-alert-success::before {
+        background: linear-gradient(135deg, #28a745, #22c55e);
+    }
+    
+    .custom-alert-error {
+        background: linear-gradient(135deg, rgba(220, 53, 69, 0.95), rgba(239, 68, 68, 0.95));
+        color: white;
+    }
+    
+    .custom-alert-error::before {
+        background: linear-gradient(135deg, #dc3545, #ef4444);
+    }
+    
+    .alert-content {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .alert-icon {
+        font-size: 24px;
+        min-width: 30px;
+        text-align: center;
+        animation: pulse 2s infinite;
+    }
+    
+    .alert-message {
+        flex: 1;
+        font-weight: 500;
+        line-height: 1.4;
+    }
+    
+    .alert-message strong {
+        font-weight: 700;
+        margin-right: 8px;
+    }
+    
+    .alert-close {
+        background: none;
+        border: none;
+        color: rgba(255,255,255,0.8);
+        font-size: 18px;
+        padding: 5px;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .alert-close:hover {
+        background: rgba(255,255,255,0.2);
+        color: white;
+        transform: scale(1.1);
+    }
+    
+    /* Animations */
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+    }
+    
+    /* Modal de confirmation personnalisé */
+    .custom-modal {
+        backdrop-filter: blur(5px);
+    }
+    
+    .custom-modal .modal-content {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%);
+        color: white;
+    }
+    
+    .custom-modal .modal-header {
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        border-radius: 20px 20px 0 0;
+    }
+    
+    .custom-modal .modal-title {
+        font-weight: 700;
+        color: white;
+    }
+    
+    .custom-modal .btn-close {
+        filter: invert(1);
+        opacity: 0.8;
+    }
+    
+    .custom-modal .btn-close:hover {
+        opacity: 1;
+    }
+    
+    .custom-modal .modal-footer {
+        border-top: 1px solid rgba(255,255,255,0.2);
+        border-radius: 0 0 20px 20px;
+    }
+    
+    .custom-modal .btn-confirm {
+        background: #dc3545;
+        border: none;
+        border-radius: 25px;
+        padding: 10px 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .custom-modal .btn-confirm:hover {
+        background: #c82333;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+    }
+    
+    .custom-modal .btn-cancel {
+        background: rgba(255,255,255,0.2);
+        border: 2px solid rgba(255,255,255,0.3);
+        color: white;
+        border-radius: 25px;
+        padding: 10px 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .custom-modal .btn-cancel:hover {
+        background: rgba(255,255,255,0.3);
+        border-color: rgba(255,255,255,0.5);
+        transform: translateY(-2px);
+    }
+    
+    /* Logo JeunAct */
+    .jeunact-logo {
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .jeunact-logo::before {
+        content: "JA";
+        font-weight: bold;
+        font-size: 16px;
+        color: #8B1538;
+        position: relative;
+    }
+    
+    .jeunact-logo-large {
+        width: 120px;
+        height: 120px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(139, 21, 56, 0.3);
+        margin: 0 auto 20px;
+    }
+    
+    .jeunact-logo-large::before {
+        content: "JA";
+        font-weight: bold;
+        font-size: 48px;
+        color: #8B1538;
+        position: relative;
+    }
+    
+    /* Textes dans les cartes */
+    .card h1, .card h2, .card h3, .card h4, .card h5, .card h6,
+    .card p, .card .text-muted {
+        color: white !important;
+    }
+
+    /* Effets de survol pour les boutons */
+    .btn {
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 10; /* ✅ IMPORTANT: Met les boutons au-dessus */
+    }
+
+    .btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    /* Effet pour boutons blancs */
+    .btn[style*="background: white"]:hover,
+    .btn[style*="background: rgba(255,255,255,0.9)"]:hover {
+        box-shadow: 0 15px 40px rgba(255,255,255,0.5);
+    }
+
+    /* Effet pour boutons transparents */
+    .btn[style*="background: rgba(255,255,255,0.2)"]:hover {
+        background: rgba(255,255,255,0.35) !important;
+    }
+
+    /* Effet pour boutons rouges */
+    .btn[style*="background: #8B1538"]:hover,
+    .btn[style*="background: #E91E63"]:hover {
+        filter: brightness(1.2);
+        box-shadow: 0 15px 40px rgba(139, 21, 56, 0.6);
+    }
+
+    /* Effet pour les boutons dans les groupes */
+    .btn-group .btn {
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 10; /* ✅ IMPORTANT */
+    }
+
+    .btn-group .btn:hover {
+        z-index: 20; /* ✅ Monte encore plus au hover */
+        transform: translateY(-3px) scale(1.08);
+    }
+
+    /* Classe pour cartes blanches */
+    .card-white {
+        background: white !important;
+        color: #333 !important;
+    }
+
+    .card-white h5,
+    .card-white .card-title {
+        color: #8B1538 !important;
+    }
+
+    .card-white .card-text {
+        color: #666 !important;
+    }
+
+    .card-white i {
+        color: #8B1538 !important;
+    }
+
+    .card-white .btn {
+        position: relative;
+        z-index: 10; /* ✅ IMPORTANT */
+    }
+
+    .card-white .btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 10px 25px rgba(139, 21, 56, 0.4);
+    }
+</style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+<a class="navbar-brand" href="{{ url_for('index') }}">
+    <div class="d-flex align-items-center">
+        <img src="{{ url_for('static', filename='logo.png') }}" 
+             alt="JeunAct Logo" 
+             class="me-2" 
+             style="width: 45px; height: 45px; object-fit: contain; background: white; border-radius: 50%; padding: 3px;">
+        <span>JeunAct</span>
+    </div>
+</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin') }}">
+                            <i class="fas fa-cog me-1"></i>Administration
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="custom-alert custom-alert-{{ 'error' if category == 'error' else 'success' }} alert-dismissible fade show" role="alert">
+                        <div class="alert-content">
+                            <div class="alert-icon">
+                                {% if category == 'error' %}
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                {% else %}
+                                    <i class="fas fa-check-circle"></i>
+                                {% endif %}
+                            </div>
+                            <div class="alert-message">
+                                <strong>{{ 'Erreur' if category == 'error' else 'Succès' }}!</strong>
+                                {{ message }}
+                            </div>
+                        </div>
+                        <button type="button" class="alert-close" data-bs-dismiss="alert" aria-label="Fermer">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Scripts pour les notifications améliorées -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto-masquer les notifications après 5 secondes
+        const alerts = document.querySelectorAll('.custom-alert');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                if (alert && alert.parentNode) {
+                    alert.style.animation = 'slideOutUp 0.5s ease-in forwards';
+                    setTimeout(() => {
+                        if (alert.parentNode) {
+                            alert.remove();
+                        }
+                    }, 500);
+                }
+            }, 5000);
+        });
+        
+        // Animation de fermeture personnalisée
+        const alertCloseButtons = document.querySelectorAll('.alert-close');
+        alertCloseButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const alert = this.closest('.custom-alert');
+                if (alert) {
+                    alert.style.animation = 'slideOutUp 0.5s ease-in forwards';
+                    setTimeout(() => {
+                        if (alert.parentNode) {
+                            alert.remove();
+                        }
+                    }, 500);
+                }
+            });
+        });
+        
+        // Effet de hover pour les boutons
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+        });
+    });
+    
+    // Animation slideOutUp
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideOutUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}Modifier {{ member.full_name }} - JeunAct{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header" style="background: rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.2);">
+                <h3 class="mb-0" style="color: white;"><i class="fas fa-user-edit me-2"></i>Modifier {{ member.full_name }}</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <!-- Champ caché pour éviter les erreurs -->
+                    <input type="hidden" name="member_number" value="{{ member.member_number }}">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="full_name" class="form-label" style="color: white;">Nom Complet *</label>
+                            <input type="text" class="form-control" id="full_name" name="full_name" 
+                                   value="{{ member.full_name }}" required
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="role" class="form-label" style="color: white;">Rôle *</label>
+                            <select class="form-select" id="role" name="role" required
+                                    style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                                <option value="Bureau" {% if member.role == 'Bureau' %}selected{% endif %}>Bureau</option>
+                                <option value="Membre" {% if member.role == 'Membre' %}selected{% endif %}>Membre</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3" id="position_field" style="{% if member.role != 'Bureau' %}display: none;{% endif %}">
+                            <label for="position" class="form-label" style="color: white;">Poste au Bureau</label>
+                            <select class="form-select" id="position" name="position" 
+                                    style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                                <option value="">Sélectionner un poste</option>
+                                <option value="Président" {% if member.position == 'Président' %}selected{% endif %}>Président</option>
+                                <option value="Vice-président" {% if member.position == 'Vice-président' %}selected{% endif %}>Vice-président</option>
+                                <option value="Graphic Designer" {% if member.position == 'Graphic Designer' %}selected{% endif %}>Graphic Designer</option>
+                                <option value="Vidéographe" {% if member.position == 'Vidéographe' %}selected{% endif %}>Vidéographe</option>
+                                <option value="Chef d'organisation" {% if member.position == "Chef d'organisation" %}selected{% endif %}>Chef d'organisation</option>
+                                <option value="Trésorière" {% if member.position == "Trésorière" %}selected{% endif %}>Trésorière</option>
+                                <option value="Secrétaire général" {% if member.position == 'Secrétaire général' %}selected{% endif %}>Secrétaire général</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label" style="color: white;">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" 
+                                   value="{{ member.email or '' }}"
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="whatsapp" class="form-label" style="color: white;">WhatsApp</label>
+                            <input type="text" class="form-control" id="whatsapp" name="whatsapp" 
+                                   value="{{ member.whatsapp or '' }}"
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                            <div class="form-text" style="color: rgba(255,255,255,0.7);">Numéro avec indicatif pays (ex: 212612345678)</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="instagram" class="form-label" style="color: white;">Instagram</label>
+                            <input type="text" class="form-control" id="instagram" name="instagram" 
+                                   value="{{ member.instagram or '' }}"
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                            <div class="form-text" style="color: rgba(255,255,255,0.7);">Nom d'utilisateur sans @</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="tiktok" class="form-label" style="color: white;">TikTok</label>
+                            <input type="text" class="form-control" id="tiktok" name="tiktok" 
+                                   value="{{ member.tiktok or '' }}"
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                            <div class="form-text" style="color: rgba(255,255,255,0.7);">Nom d'utilisateur avec @</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="linkedin" class="form-label" style="color: white;">LinkedIn</label>
+                            <input type="url" class="form-control" id="linkedin" name="linkedin" 
+                                   value="{{ member.linkedin or '' }}"
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="portfolio" class="form-label" style="color: white;">Portfolio</label>
+                            <input type="url" class="form-control" id="portfolio" name="portfolio" 
+                                   value="{{ member.portfolio or '' }}"
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                            <div class="form-text" style="color: rgba(255,255,255,0.7);">Lien vers votre site web ou portfolio</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="photo" class="form-label" style="color: white;">Photo</label>
+                            <input type="text" class="form-control" id="photo" name="photo" 
+                                   value="{{ member.photo or '' }}"
+                                   placeholder="photos/HAMZA.jpg ou https://example.com/photo.jpg"
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                            <div class="form-text" style="color: rgba(255,255,255,0.7);">
+                                <strong>Photos locales :</strong> photos/nom.jpg<br>
+                                <strong>URLs externes :</strong> https://example.com/photo.jpg
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn" style="background: white; color: #8B1538; border: 2px solid white; font-weight: 500; border-radius: 25px; padding: 10px 25px;">
+                            <i class="fas fa-save me-2"></i>Enregistrer
+                        </button>
+                        <a href="{{ url_for('admin') }}" class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.4); font-weight: 500; border-radius: 25px; padding: 10px 25px;">
+                            <i class="fas fa-arrow-left me-2"></i>Retour
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const roleSelect = document.getElementById('role');
+    const positionField = document.getElementById('position_field');
+    const positionSelect = document.getElementById('position');
+    
+    function togglePositionField() {
+        if (roleSelect.value === 'Bureau') {
+            positionField.style.display = 'block';
+            positionSelect.required = true;
+        } else {
+            positionField.style.display = 'none';
+            positionSelect.required = false;
+            positionSelect.value = '';
+        }
+    }
+    
+    roleSelect.addEventListener('change', togglePositionField);
+    
+    // Initial state
+    togglePositionField();
+});
+</script>
+{% endblock %}

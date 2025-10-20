@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JeunAct - Démonstration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.95);
+        }
+        .badge-role {
+            font-size: 0.8rem;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+        .badge-bureau {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+        .badge-membre {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+        .social-link {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            margin: 5px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .social-link:hover {
+            transform: scale(1.1);
+            text-decoration: none;
+        }
+        .whatsapp { background: #25D366; color: white; }
+        .instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
+        .linkedin { background: #0077b5; color: white; }
+        .email { background: #ea4335; color: white; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-qrcode me-2"></i>JeunAct
+            </a>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card text-center">
+                    <div class="card-body py-5">
+                        <i class="fas fa-qrcode fa-4x text-primary mb-4"></i>
+                        <h1 class="card-title display-4 fw-bold mb-4">JeunAct Badges QR</h1>
+                        <p class="card-text lead mb-4">
+                            Système de badges QR pour l'association JeunAct. 
+                            Scannez un QR code pour accéder aux informations complètes d'un membre.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Démonstration d'un profil de membre -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <div class="position-relative d-inline-block">
+                                <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center mb-3" 
+                                     style="width: 120px; height: 120px; margin: 0 auto;">
+                                    <i class="fas fa-user fa-3x text-white"></i>
+                                </div>
+                                <span class="badge badge-role badge-bureau position-absolute" 
+                                      style="top: 0; right: 0; transform: translate(50%, -50%);">
+                                    Bureau
+                                </span>
+                            </div>
+                            <h1 class="display-5 fw-bold mb-2">Jean Dupont</h1>
+                            <p class="text-muted mb-4">
+                                <i class="fas fa-hashtag me-1"></i>Membre #MEM001
+                            </p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5><i class="fas fa-quote-left me-2"></i>À propos</h5>
+                            <p class="lead">Président de l'association JeunAct, passionné par l'engagement des jeunes et l'organisation d'événements communautaires.</p>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="mb-3"><i class="fas fa-link me-2"></i>Contact & Réseaux</h5>
+                                <div class="d-flex flex-wrap justify-content-center gap-3">
+                                    <a href="https://wa.me/33123456789" 
+                                       class="social-link whatsapp" target="_blank" 
+                                       title="Contacter sur WhatsApp">
+                                        <i class="fab fa-whatsapp fa-lg"></i>
+                                    </a>
+                                    
+                                    <a href="https://instagram.com/jean_dupont" 
+                                       class="social-link instagram" target="_blank" 
+                                       title="Voir le profil Instagram">
+                                        <i class="fab fa-instagram fa-lg"></i>
+                                    </a>
+                                    
+                                    <a href="https://linkedin.com/in/jean-dupont" 
+                                       class="social-link linkedin" target="_blank" 
+                                       title="Voir le profil LinkedIn">
+                                        <i class="fab fa-linkedin fa-lg"></i>
+                                    </a>
+                                    
+                                    <a href="mailto:jean.dupont@jeunact.org" 
+                                       class="social-link email" 
+                                       title="Envoyer un email">
+                                        <i class="fas fa-envelope fa-lg"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="text-muted mb-0">
+                                <i class="fas fa-qrcode me-1"></i>
+                                Scanné depuis un badge JeunAct
+                            </p>
+                            <small class="text-muted">
+                                Membre depuis - 19/10/2025
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fonctionnalités -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="text-center mb-4">Fonctionnalités du Système</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>WhatsApp : Clic direct pour conversation</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Instagram : Lien direct vers le profil</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>LinkedIn : Lien vers le profil professionnel</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Email : Ouvre directement l'application mail</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Bio personnalisée avec style</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Badge type (Bureau/Membre) visible</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Numéro de membre affiché</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Design responsive et moderne</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

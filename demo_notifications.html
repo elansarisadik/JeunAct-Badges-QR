@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Démonstration - Notifications JeunAct</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles personnalisés pour les notifications -->
+    <style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
+    
+    .demo-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    
+    .demo-title {
+        text-align: center;
+        color: #8B1538;
+        margin-bottom: 30px;
+        font-weight: 700;
+    }
+    
+    .demo-section {
+        margin-bottom: 30px;
+    }
+    
+    .demo-button {
+        margin: 5px;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .demo-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    /* Styles des notifications (copiés de base.html) */
+    .custom-alert {
+        border: none;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+        animation: slideInDown 0.5s ease-out;
+    }
+    
+    .custom-alert::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        border-radius: 0 4px 4px 0;
+    }
+    
+    .custom-alert-success {
+        background: linear-gradient(135deg, rgba(40, 167, 69, 0.95), rgba(34, 197, 94, 0.95));
+        color: white;
+    }
+    
+    .custom-alert-success::before {
+        background: linear-gradient(135deg, #28a745, #22c55e);
+    }
+    
+    .custom-alert-error {
+        background: linear-gradient(135deg, rgba(220, 53, 69, 0.95), rgba(239, 68, 68, 0.95));
+        color: white;
+    }
+    
+    .custom-alert-error::before {
+        background: linear-gradient(135deg, #dc3545, #ef4444);
+    }
+    
+    .alert-content {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .alert-icon {
+        font-size: 24px;
+        min-width: 30px;
+        text-align: center;
+        animation: pulse 2s infinite;
+    }
+    
+    .alert-message {
+        flex: 1;
+        font-weight: 500;
+        line-height: 1.4;
+    }
+    
+    .alert-message strong {
+        font-weight: 700;
+        margin-right: 8px;
+    }
+    
+    .alert-close {
+        background: none;
+        border: none;
+        color: rgba(255,255,255,0.8);
+        font-size: 18px;
+        padding: 5px;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .alert-close:hover {
+        background: rgba(255,255,255,0.2);
+        color: white;
+        transform: scale(1.1);
+    }
+    
+    @keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+    }
+    
+    @keyframes slideOutUp {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="demo-title">
+            <i class="fas fa-bell me-2"></i>
+            Démonstration des Notifications JeunAct
+        </h1>
+        
+        <div class="demo-section">
+            <h3 style="color: #8B1538; margin-bottom: 15px;">
+                <i class="fas fa-plus-circle me-2"></i>Notifications de Succès
+            </h3>
+            <button class="btn btn-success demo-button" onclick="showSuccessNotification('Le membre "Ahmed Essadik" a été ajouté avec succès !')">
+                <i class="fas fa-user-plus me-2"></i>Ajouter un Membre
+            </button>
+            <button class="btn btn-success demo-button" onclick="showSuccessNotification('Les informations du membre "Zakariyae Hajji" ont été mises à jour avec succès !')">
+                <i class="fas fa-edit me-2"></i>Modifier un Membre
+            </button>
+            <button class="btn btn-success demo-button" onclick="showSuccessNotification('Le membre "Hamza Nzerwalt" a été supprimé avec succès !')">
+                <i class="fas fa-trash me-2"></i>Supprimer un Membre
+            </button>
+        </div>
+        
+        <div class="demo-section">
+            <h3 style="color: #8B1538; margin-bottom: 15px;">
+                <i class="fas fa-exclamation-triangle me-2"></i>Notifications d'Erreur
+            </h3>
+            <button class="btn btn-danger demo-button" onclick="showErrorNotification('Erreur lors de l\\'ajout: Le membre existe déjà')">
+                <i class="fas fa-times me-2"></i>Erreur d'Ajout
+            </button>
+            <button class="btn btn-danger demo-button" onclick="showErrorNotification('Erreur lors de la modification: Champ requis manquant')">
+                <i class="fas fa-times me-2"></i>Erreur de Modification
+            </button>
+            <button class="btn btn-danger demo-button" onclick="showErrorNotification('Erreur lors de la suppression: Impossible de supprimer ce membre')">
+                <i class="fas fa-times me-2"></i>Erreur de Suppression
+            </button>
+        </div>
+        
+        <div class="demo-section">
+            <h3 style="color: #8B1538; margin-bottom: 15px;">
+                <i class="fas fa-magic me-2"></i>Fonctionnalités
+            </h3>
+            <ul style="color: #666; line-height: 1.8;">
+                <li><strong>Animations fluides :</strong> Les notifications apparaissent avec une animation slideInDown</li>
+                <li><strong>Auto-disparition :</strong> Les notifications se ferment automatiquement après 5 secondes</li>
+                <li><strong>Fermeture manuelle :</strong> Bouton X pour fermer immédiatement</li>
+                <li><strong>Design cohérent :</strong> Style qui s'intègre parfaitement avec le site JeunAct</li>
+                <li><strong>Icônes animées :</strong> Effet pulse sur les icônes pour attirer l'attention</li>
+                <li><strong>Gradients modernes :</strong> Arrière-plans dégradés pour un look professionnel</li>
+            </ul>
+        </div>
+        
+        <div id="notificationContainer"></div>
+    </div>
+    
+    <script>
+    function showSuccessNotification(message) {
+        showNotification(message, 'success');
+    }
+    
+    function showErrorNotification(message) {
+        showNotification(message, 'error');
+    }
+    
+    function showNotification(message, type) {
+        const container = document.getElementById('notificationContainer');
+        const alertClass = type === 'error' ? 'custom-alert-error' : 'custom-alert-success';
+        const icon = type === 'error' ? 'fas fa-exclamation-triangle' : 'fas fa-check-circle';
+        const title = type === 'error' ? 'Erreur' : 'Succès';
+        
+        const alertHTML = `
+            <div class="custom-alert ${alertClass} alert-dismissible fade show" role="alert">
+                <div class="alert-content">
+                    <div class="alert-icon">
+                        <i class="${icon}"></i>
+                    </div>
+                    <div class="alert-message">
+                        <strong>${title}!</strong>
+                        ${message}
+                    </div>
+                </div>
+                <button type="button" class="alert-close" onclick="closeNotification(this)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        
+        container.insertAdjacentHTML('beforeend', alertHTML);
+        
+        // Auto-fermeture après 5 secondes
+        const alert = container.lastElementChild;
+        setTimeout(() => {
+            if (alert && alert.parentNode) {
+                closeNotification(alert.querySelector('.alert-close'));
+            }
+        }, 5000);
+    }
+    
+    function closeNotification(button) {
+        const alert = button.closest('.custom-alert');
+        if (alert) {
+            alert.style.animation = 'slideOutUp 0.5s ease-in forwards';
+            setTimeout(() => {
+                if (alert.parentNode) {
+                    alert.remove();
+                }
+            }, 500);
+        }
+    }
+    </script>
+</body>
+</html>

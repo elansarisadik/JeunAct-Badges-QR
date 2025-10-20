@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JeunAct - Design Final</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%);
+            min-height: 100vh;
+        }
+        .navbar {
+            background: white !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            color: #8B1538 !important;
+            font-weight: 700;
+        }
+        .navbar-nav .nav-link {
+            color: #8B1538 !important;
+            font-weight: 500;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #E91E63 !important;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.95);
+        }
+        .badge-role {
+            font-size: 0.8rem;
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+        .badge-bureau {
+            background: linear-gradient(45deg, #8B1538, #A91B4A);
+            color: white;
+        }
+        .badge-membre {
+            background: linear-gradient(45deg, #E91E63, #F06292);
+            color: white;
+        }
+        .social-link {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            margin: 5px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .social-link:hover {
+            transform: scale(1.1);
+            text-decoration: none;
+        }
+        .whatsapp { background: #25D366; color: white; }
+        .instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
+        .linkedin { background: #0077b5; color: white; }
+        .email { background: #ea4335; color: white; }
+        
+        /* Logo JeunAct */
+        .jeunact-logo {
+            width: 40px;
+            height: 40px;
+            background: #8B1538;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .jeunact-logo::before {
+            content: "JA";
+            font-weight: bold;
+            font-size: 16px;
+            color: white;
+            position: relative;
+        }
+        
+        .jeunact-logo-large {
+            width: 120px;
+            height: 120px;
+            background: #8B1538;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 0 auto 20px;
+        }
+        
+        .jeunact-logo-large::before {
+            content: "JA";
+            font-weight: bold;
+            font-size: 48px;
+            color: white;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <div class="d-flex align-items-center">
+                    <div class="jeunact-logo me-2"></div>
+                    <span>JeunAct</span>
+                </div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-cog me-1"></i>Administration
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card text-center">
+                    <div class="card-body py-5">
+                        <div class="jeunact-logo-large"></div>
+                        <h1 class="card-title display-4 fw-bold mb-4" style="background: linear-gradient(45deg, #8B1538, #E91E63); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">JeunAct Badges QR</h1>
+                        <p class="card-text lead mb-2" style="color: #8B1538; font-weight: 500;">MORE THAN EVENTS, A MISSION</p>
+                        <p class="card-text lead mb-4">
+                            Système de badges QR pour l'association JeunAct. 
+                            Scannez un QR code pour accéder aux informations complètes d'un membre.
+                        </p>
+                        <div class="d-flex gap-3 justify-content-center">
+                            <a href="#" class="btn" style="background: #8B1538; color: white; border: none;">
+                                <i class="fas fa-cog me-2"></i>Administration
+                            </a>
+                            <a href="#" class="btn" style="background: #E91E63; color: white; border: none;">
+                                <i class="fas fa-qr-code me-2"></i>Générer QR
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Démonstration d'un profil de membre -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <div class="position-relative d-inline-block">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center mb-3" 
+                                     style="width: 120px; height: 120px; margin: 0 auto; background: linear-gradient(45deg, #8B1538, #E91E63);">
+                                    <i class="fas fa-user fa-3x text-white"></i>
+                                </div>
+                                <span class="badge badge-role badge-membre position-absolute" 
+                                      style="top: 0; right: 0; transform: translate(50%, -50%);">
+                                    Membre
+                                </span>
+                            </div>
+                            <h1 class="display-5 fw-bold mb-2">Ahmed Essadik Elansari</h1>
+                            <p class="text-muted mb-4">
+                                <i class="fas fa-hashtag me-1"></i>Membre #MEM001
+                            </p>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5><i class="fas fa-quote-left me-2"></i>À propos</h5>
+                            <p class="lead">Membre actif de JeunAct, passionné par l'engagement des jeunes et l'organisation d'événements communautaires.</p>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="mb-3"><i class="fas fa-link me-2"></i>Contact & Réseaux</h5>
+                                <div class="d-flex flex-wrap justify-content-center gap-3">
+                                    <a href="https://wa.me/33123456789" 
+                                       class="social-link whatsapp" target="_blank" 
+                                       title="Contacter sur WhatsApp">
+                                        <i class="fab fa-whatsapp fa-lg"></i>
+                                    </a>
+                                    
+                                    <a href="https://instagram.com/ahmed_elansari" 
+                                       class="social-link instagram" target="_blank" 
+                                       title="Voir le profil Instagram">
+                                        <i class="fab fa-instagram fa-lg"></i>
+                                    </a>
+                                    
+                                    <a href="https://linkedin.com/in/ahmed-elansari" 
+                                       class="social-link linkedin" target="_blank" 
+                                       title="Voir le profil LinkedIn">
+                                        <i class="fab fa-linkedin fa-lg"></i>
+                                    </a>
+                                    
+                                    <a href="mailto:elansarisadik@gmail.com" 
+                                       class="social-link email" 
+                                       title="Envoyer un email">
+                                        <i class="fas fa-envelope fa-lg"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="text-muted mb-0">
+                                <i class="fas fa-qrcode me-1"></i>
+                                Scanné depuis un badge JeunAct
+                            </p>
+                            <small class="text-muted">
+                                Membre depuis - 19/10/2025
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}Ajouter un Membre - JeunAct{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header" style="background: rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.2);">
+                <h3 class="mb-0" style="color: white;"><i class="fas fa-user-plus me-2"></i>Ajouter un Nouveau Membre</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="full_name" class="form-label" style="color: white;">Nom Complet *</label>
+                            <input type="text" class="form-control" id="full_name" name="full_name" 
+                                   required placeholder="Ex: Jean Dupont"
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="role" class="form-label" style="color: white;">Rôle *</label>
+                            <select class="form-select" id="role" name="role" required
+                                    style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                                <option value="">Sélectionner un rôle</option>
+                                <option value="Bureau">Bureau</option>
+                                <option value="Membre">Membre</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="integration_date" class="form-label" style="color: white;">Date d'intégration *</label>
+                            <input type="date" class="form-control" id="integration_date" name="integration_date" 
+                                   required
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3" id="position_field" style="display: none;">
+                            <label for="position" class="form-label" style="color: white;">Poste au Bureau *</label>
+                            <select class="form-select" id="position" name="position" 
+                                    style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                                <option value="">Sélectionner un poste</option>
+                                <option value="Président">Président</option>
+                                <option value="Vice-président">Vice-président</option>
+                                <option value="Graphic Designer">Graphic Designer</option>
+                                <option value="Vidéographe">Vidéographe</option>
+                                <option value="Chef d'organisation">Chef d'organisation</option>
+                                <option value="Trésorière">Trésorière</option>
+                                <option value="Secrétaire général">Secrétaire général</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label" style="color: white;">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" 
+                                   placeholder="jean.dupont@email.com"
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="whatsapp" class="form-label" style="color: white;">WhatsApp</label>
+                            <input type="text" class="form-control" id="whatsapp" name="whatsapp" 
+                                   placeholder="Ex: 212612345678"
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                            <div class="form-text" style="color: rgba(255,255,255,0.7);">Numéro avec indicatif pays (ex: 212612345678)</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="instagram" class="form-label" style="color: white;">Instagram</label>
+                            <input type="text" class="form-control" id="instagram" name="instagram" 
+                                   placeholder="Ex: jean_dupont"
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                            <div class="form-text" style="color: rgba(255,255,255,0.7);">Nom d'utilisateur sans @</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="tiktok" class="form-label" style="color: white;">TikTok</label>
+                            <input type="text" class="form-control" id="tiktok" name="tiktok" 
+                                   placeholder="Ex: @jean_dupont"
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                            <div class="form-text" style="color: rgba(255,255,255,0.7);">Nom d'utilisateur avec @</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="linkedin" class="form-label" style="color: white;">LinkedIn</label>
+                            <input type="url" class="form-control" id="linkedin" name="linkedin" 
+                                   placeholder="https://linkedin.com/in/jean-dupont"
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="portfolio" class="form-label" style="color: white;">Portfolio</label>
+                            <input type="url" class="form-control" id="portfolio" name="portfolio" 
+                                   placeholder="https://monportfolio.com"
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                            <div class="form-text" style="color: rgba(255,255,255,0.7);">Lien vers votre site web ou portfolio</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="photo" class="form-label" style="color: white;">Photo</label>
+                            <input type="text" class="form-control" id="photo" name="photo" 
+                                   placeholder="photos/HAMZA.jpg ou https://example.com/photo.jpg"
+                                   style="background: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3);">
+                            <div class="form-text" style="color: rgba(255,255,255,0.7);">
+                                <strong>Photos locales :</strong> photos/nom.jpg<br>
+                                <strong>URLs externes :</strong> https://example.com/photo.jpg
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn" style="background: white; color: #8B1538; border: 2px solid white; font-weight: 500; border-radius: 25px; padding: 10px 25px;">
+                            <i class="fas fa-save me-2"></i>Enregistrer
+                        </button>
+                        <a href="{{ url_for('admin') }}" class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.4); font-weight: 500; border-radius: 25px; padding: 10px 25px;">
+                            <i class="fas fa-arrow-left me-2"></i>Retour
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const roleSelect = document.getElementById('role');
+    const positionField = document.getElementById('position_field');
+    const positionSelect = document.getElementById('position');
+    
+    function togglePositionField() {
+        if (roleSelect.value === 'Bureau') {
+            positionField.style.display = 'block';
+            positionSelect.required = true;
+        } else {
+            positionField.style.display = 'none';
+            positionSelect.required = false;
+            positionSelect.value = '';
+        }
+    }
+    
+    roleSelect.addEventListener('change', togglePositionField);
+    
+    // Initial state
+    togglePositionField();
+});
+</script>
+{% endblock %}
