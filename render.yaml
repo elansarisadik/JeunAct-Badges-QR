@@ -1,0 +1,6 @@
+# Configuration pour Render.com
+# Ce fichier configure l'application pour Render
+
+# Variables d'environnement par défaut
+SECRET_KEY=JeunAct2024_QR_Code_SuperSecretKey_Render_Production
+PRODUCTION_URL=https://jeunact-qr.onrender.com

@@ -1,6 +1,6 @@
-# 🚀 QR Code Jeunact - Cloudflare Workers
+# 🚀 QR Code Jeunact
 
-Application Flask de gestion des membres avec génération de QR codes, déployée sur Cloudflare Workers pour une disponibilité 24/7.
+Application Flask de gestion des membres avec génération de QR codes pour l'association JeunAct.
 
 ## ✨ Fonctionnalités
 
@@ -8,89 +8,72 @@ Application Flask de gestion des membres avec génération de QR codes, déploy�
 - 👥 Gestion des membres (Bureau/Membres)
 - 🔗 Profils avec réseaux sociaux
 - 📊 Interface d'administration
-- ☁️ Déploiement Cloudflare Workers 24/7
+- 🖼️ Gestion des photos de profil
 
-## 🚀 Déploiement Rapide
+## 🚀 Installation et utilisation
 
-### Via GitHub (Recommandé)
+### Prérequis
+- Python 3.8+
+- pip
 
-1. **Fork ce repository**
-2. **Connectez GitHub à Cloudflare** :
-   - Allez sur [dash.cloudflare.com](https://dash.cloudflare.com)
-   - Workers & Pages → Create application
-   - Connect to Git → Sélectionnez ce repository
-3. **Configurez les variables d'environnement** :
-   - `DATABASE_URL` : URL PostgreSQL Supabase
-   - `SECRET_KEY` : Clé secrète Flask
-   - `PRODUCTION_URL` : URL de votre application
-
-### Déploiement Local
-
+### Installation
 ```bash
-# Installer Wrangler
-npm install -g wrangler
+# Cloner le repository
+git clone https://github.com/elansarisadik/JeunAct-Badges-QR.git
+cd JeunAct-Badges-QR
 
-# Se connecter
-wrangler login
+# Installer les dépendances
+pip install -r requirements.txt
 
-# Déployer
-wrangler deploy
+# Copier le fichier de configuration
+cp env.example .env
+
+# Éditer .env avec vos paramètres
+# PRODUCTION_URL=https://votre-domaine.com
 ```
 
-## 🗄️ Base de données
-
-Cette application utilise **Supabase PostgreSQL** :
-
-1. Créez un projet sur [supabase.com](https://supabase.com)
-2. Exécutez le SQL dans `supabase-schema.sql`
-3. Configurez `DATABASE_URL` dans les variables d'environnement
-
-## 📁 Structure
-
+### Lancement
+```bash
+python app.py
 ```
-├── app.py              # Application Flask principale
-├── worker.py           # Version Cloudflare Workers
-├── config.py           # Configuration
-├── wrangler.toml       # Configuration Cloudflare
-├── requirements.txt    # Dépendances Python
-├── package.json        # Dépendances Node.js
-└── templates/          # Templates HTML
-```
+
+L'application sera disponible sur : http://localhost:5000
 
 ## 🔧 Configuration
 
-### Variables d'environnement requises
+### Variables d'environnement (.env)
 
-- `DATABASE_URL` : URL PostgreSQL Supabase
+- `PRODUCTION_URL` : URL de production pour les QR codes
 - `SECRET_KEY` : Clé secrète Flask
-- `PRODUCTION_URL` : URL de production
+- `DATABASE_URL` : URL de base de données (optionnel, utilise SQLite par défaut)
 
-### Services Cloudflare
+## 📁 Structure du projet
 
-- **Workers** : Hébergement de l'application
-- **R2** : Stockage des photos
-- **KV** : Cache (optionnel)
+```
+├── app.py              # Application Flask principale
+├── config.py           # Configuration
+├── requirements.txt    # Dépendances Python
+├── templates/          # Templates HTML
+├── static/             # Fichiers statiques (CSS, images)
+└── instance/           # Base de données SQLite
+```
 
-## 📊 Monitoring
+## 🎯 Utilisation
 
-- **Logs** : `wrangler tail`
-- **Analytics** : Dashboard Cloudflare
-- **Uptime** : SLA 99.9% garanti
+1. **Accueil** : Page principale avec informations
+2. **Admin** : Interface d'administration (`/admin`)
+3. **Ajouter membre** : Formulaire d'ajout (`/add_member`)
+4. **Profil membre** : Page de profil (`/member/<id>`)
+5. **QR Code** : Génération de QR code (`/generate_qr/<id>`)
 
-## 🎯 Avantages Cloudflare Workers
+## 📱 QR Codes
 
-- ✅ **Disponibilité 24/7** (SLA 99.9%)
-- ✅ **Performance optimale** (Edge Computing)
-- ✅ **Scalabilité automatique**
-- ✅ **Protection DDoS** intégrée
-- ✅ **Coût optimisé** (gratuit jusqu'à 100k requêtes/jour)
+Les QR codes générés pointent vers les profils des membres et contiennent toutes les informations de contact.
 
-## 📞 Support
+## 🗄️ Base de données
 
-- **Documentation** : [developers.cloudflare.com/workers](https://developers.cloudflare.com/workers/)
-- **Communauté** : Discord Cloudflare
-- **Issues** : GitHub Issues
+L'application utilise SQLite par défaut, mais peut être configurée pour utiliser PostgreSQL ou MySQL.
 
 ---
 
-**🚀 Déployé avec ❤️ sur Cloudflare Workers**
+**🚀 Développé avec ❤️ pour JeunAct**

@@ -13,19 +13,15 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
 
-# Configuration de la base de données pour la production
+# Configuration de la base de données
 if os.environ.get('DATABASE_URL'):
-    # Production (Railway, Heroku, Cloudflare Workers, etc.)
+    # Production
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 else:
     # Développement local
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///jeunact_members.db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# Configuration spécifique pour Cloudflare Workers
-if Config.is_cloudflare():
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = Config.SQLALCHEMY_ENGINE_OPTIONS
 
 db = SQLAlchemy(app)
 
