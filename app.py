@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import qrcode
@@ -34,6 +34,21 @@ def generate_member_number():
     next_number = member_count + 1
     return f"MEM{next_number:03d}"
 
+# Fonctions d'authentification
+def is_admin():
+    """Vérifie si l'utilisateur est connecté en tant qu'admin"""
+    return session.get('is_admin', False)
+
+def require_admin(f):
+    """Décorateur pour protéger les routes admin"""
+    def decorated_function(*args, **kwargs):
+        if not is_admin():
+            flash('Accès refusé. Connexion administrateur requise.', 'error')
+            return redirect(url_for('admin_login'))
+        return f(*args, **kwargs)
+    decorated_function.__name__ = f.__name__
+    return decorated_function
+
 # Modèle de données pour les membres
 class Member(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -59,7 +74,27 @@ class Member(db.Model):
 def index():
     return render_template('index.html')
 
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        password = request.form.get('password')
+        # Mot de passe admin simple (à changer en production)
+        if password == 'JeunAct2024Admin':
+            session['is_admin'] = True
+            flash('Connexion réussie !', 'success')
+            return redirect(url_for('admin'))
+        else:
+            flash('Mot de passe incorrect.', 'error')
+    return render_template('admin_login.html')
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('is_admin', None)
+    flash('Déconnexion réussie.', 'success')
+    return redirect(url_for('index'))
+
 @app.route('/admin')
+@require_admin
 def admin():
     members = Member.query.all()
     return render_template('admin.html', members=members)
@@ -70,6 +105,7 @@ def member_profile(member_id):
     return render_template('member_profile.html', member=member)
 
 @app.route('/add_member', methods=['GET', 'POST'])
+@require_admin
 def add_member():
     if request.method == 'POST':
         integration_date = None
@@ -102,6 +138,7 @@ def add_member():
     return render_template('add_member.html')
 
 @app.route('/edit_member/<int:member_id>', methods=['GET', 'POST'])
+@require_admin
 def edit_member(member_id):
     member = Member.query.get_or_404(member_id)
     
@@ -131,6 +168,7 @@ def edit_member(member_id):
     return render_template('edit_member.html', member=member)
 
 @app.route('/delete_member/<int:member_id>')
+@require_admin
 def delete_member(member_id):
     member = Member.query.get_or_404(member_id)
     try:
@@ -143,6 +181,7 @@ def delete_member(member_id):
     return redirect(url_for('admin'))
 
 @app.route('/generate_qr/<int:member_id>')
+@require_admin
 def generate_qr(member_id):
     member = Member.query.get_or_404(member_id)
     

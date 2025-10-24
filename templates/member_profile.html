@@ -12,9 +12,13 @@
                 
                 <!-- Logo JeunAct de l'association en haut à gauche -->
                 <div style="position: absolute; top: 15px; left: 20px;">
-                    <img src="{{ url_for('static', filename='logo.png') }}" 
+                    <img src="{{ url_for('static', filename='logo.png', _external=True) }}" 
                          alt="JeunAct Logo" 
-                         style="width: 55px; height: 55px; border-radius: 50%; object-fit: contain; background: white; border: 3px solid rgba(255,255,255,0.4); padding: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                         style="width: 55px; height: 55px; border-radius: 50%; object-fit: contain; background: white; border: 3px solid rgba(255,255,255,0.4); padding: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div style="width: 55px; height: 55px; border-radius: 50%; background: white; border: 3px solid rgba(255,255,255,0.4); padding: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: none; align-items: center; justify-content: center;">
+                        <span style="font-weight: bold; font-size: 18px; color: #8B1538;">JA</span>
+                    </div>
                 </div>
                 
                 <!-- Badge rôle en haut à droite -->

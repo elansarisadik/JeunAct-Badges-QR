@@ -16,5 +16,5 @@ class Config:
         if os.environ.get('PRODUCTION_URL'):
             return os.environ.get('PRODUCTION_URL')
         
-        # Par défaut, localhost pour le développement
-        return 'http://localhost:5000'
+        # URL de production par défaut pour JeunAct
+        return 'https://jeunact.com'

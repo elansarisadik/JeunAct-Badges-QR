@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}JeunAct - Connexion Admin{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="col-lg-4 col-md-6 col-sm-8">
+        <div class="card card-white">
+            <div class="card-body text-center p-5">
+                <!-- Logo JeunAct -->
+                <div class="jeunact-logo-large mb-4"></div>
+                
+                <h3 class="card-title mb-4" style="color: #8B1538;">
+                    <i class="fas fa-shield-alt me-2"></i>Connexion Admin
+                </h3>
+                
+                <p class="card-text mb-4" style="color: #666;">
+                    Accès réservé aux administrateurs de JeunAct
+                </p>
+                
+                <form method="POST">
+                    <div class="mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text" style="background: #8B1538; color: white; border: 2px solid #8B1538;">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            <input type="password" 
+                                   class="form-control" 
+                                   name="password" 
+                                   placeholder="Mot de passe administrateur"
+                                   required
+                                   style="border: 2px solid #8B1538; border-left: none; padding: 12px 15px; font-size: 1rem;">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" 
+                            class="btn w-100 mb-3" 
+                            style="background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%); color: white; border: none; border-radius: 25px; padding: 12px; font-weight: 600; font-size: 1.1rem;">
+                        <i class="fas fa-sign-in-alt me-2"></i>Se connecter
+                    </button>
+                </form>
+                
+                <div class="mt-4">
+                    <a href="{{ url_for('index') }}" 
+                       class="btn" 
+                       style="background: rgba(139, 21, 56, 0.1); color: #8B1538; border: 2px solid #8B1538; border-radius: 25px; padding: 10px 25px; font-weight: 500;">
+                        <i class="fas fa-arrow-left me-2"></i>Retour à l'accueil
+                    </a>
+                </div>
+                
+                <div class="mt-4 pt-3" style="border-top: 1px solid #e0e0e0;">
+                    <small style="color: #999;">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Mot de passe par défaut : JeunAct2024Admin
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.input-group-text {
+    border-radius: 25px 0 0 25px !important;
+}
+
+.form-control {
+    border-radius: 0 25px 25px 0 !important;
+}
+
+.form-control:focus {
+    border-color: #8B1538 !important;
+    box-shadow: 0 0 0 0.2rem rgba(139, 21, 56, 0.25) !important;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 21, 56, 0.4);
+}
+</style>
+{% endblock %}
