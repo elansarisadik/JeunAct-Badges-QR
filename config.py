@@ -16,5 +16,5 @@ class Config:
         if os.environ.get('PRODUCTION_URL'):
             return os.environ.get('PRODUCTION_URL')
         
-        # URL de production par défaut pour JeunAct
-        return 'https://jeunact.com'
+        # URL Vercel par défaut (sera remplacée par l'URL réelle)
+        return 'https://jeunact-badges-qr.vercel.app'
