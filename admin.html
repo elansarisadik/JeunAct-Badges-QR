@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="icon" href="static/favicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JeunAct - Administration</title>
+    <link rel="icon" type="image/png" href="static/favicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #FFFFFF;
+        min-height: 100vh;
+    }
+    .navbar {
+        background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%) !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .navbar-brand {
+        color: #FFFFFF !important;
+        font-weight: 700;
+    }
+    .navbar-nav .nav-link {
+        color: #FFFFFF !important;
+        font-weight: 500;
+    }
+    .navbar-nav .nav-link:hover {
+        color: rgba(255,255,255,0.8) !important;
+    }
+    .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        backdrop-filter: blur(10px);
+        background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%);
+        color: white;
+        transition: all 0.4s ease;
+        position: relative;
+    }
+    .btn-primary {
+        background: white;
+        color: #8B1538;
+        border: 2px solid #8B1538;
+        border-radius: 25px;
+        padding: 10px 25px;
+        font-weight: 500;
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        background: #8B1538;
+        color: white;
+    }
+    .badge-role {
+        font-size: 0.8rem;
+        padding: 8px 15px;
+        border-radius: 20px;
+    }
+    .badge-bureau {
+        background: white;
+        color: #8B1538;
+        border: 2px solid rgba(255,255,255,0.3);
+    }
+    .badge-membre {
+        background: rgba(255,255,255,0.2);
+        color: white;
+        border: 2px solid rgba(255,255,255,0.5);
+    }
+    .member-card {
+        transition: transform 0.3s ease;
+    }
+    .member-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+    .card h1, .card h2, .card h3, .card h4, .card h5, .card h6,
+    .card p, .card .text-muted {
+        color: white !important;
+    }
+    .btn {
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 10;
+    }
+    .btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    .btn-group .btn {
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 10;
+    }
+    .btn-group .btn:hover {
+        z-index: 20;
+        transform: translateY(-3px) scale(1.08);
+    }
+    .login-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .login-card {
+        background: white !important;
+        color: #333 !important;
+        max-width: 400px;
+        width: 100%;
+    }
+    .login-card h3 {
+        color: #8B1538 !important;
+    }
+    .login-card .form-control {
+        border: 2px solid #8B1538;
+        border-radius: 25px;
+        padding: 12px 15px;
+    }
+    .login-card .form-control:focus {
+        border-color: #8B1538;
+        box-shadow: 0 0 0 0.2rem rgba(139, 21, 56, 0.25);
+    }
+    .input-group-text {
+        background: #8B1538;
+        color: white;
+        border: 2px solid #8B1538;
+        border-radius: 25px 0 0 25px;
+    }
+    .form-control {
+        border-radius: 0 25px 25px 0;
+    }
+    .alert {
+        border: none;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    .alert-success {
+        background: linear-gradient(135deg, rgba(40, 167, 69, 0.95), rgba(34, 197, 94, 0.95));
+        color: white;
+    }
+    .alert-danger {
+        background: linear-gradient(135deg, rgba(220, 53, 69, 0.95), rgba(239, 68, 68, 0.95));
+        color: white;
+    }
+    .modal-content {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%);
+        color: white;
+    }
+    .modal-header {
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        border-radius: 20px 20px 0 0;
+    }
+    .modal-footer {
+        border-top: 1px solid rgba(255,255,255,0.2);
+        border-radius: 0 0 20px 20px;
+    }
+    .btn-close {
+        filter: invert(1);
+        opacity: 0.8;
+    }
+    .btn-close:hover {
+        opacity: 1;
+    }
+    .form-control, .form-select {
+        background: rgba(255,255,255,0.1);
+        border: 2px solid rgba(255,255,255,0.3);
+        color: white;
+        border-radius: 25px;
+    }
+    .form-control:focus, .form-select:focus {
+        background: rgba(255,255,255,0.2);
+        border-color: rgba(255,255,255,0.5);
+        color: white;
+        box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.25);
+    }
+    .form-control::placeholder {
+        color: rgba(255,255,255,0.7);
+    }
+    .form-label {
+        color: white;
+        font-weight: 600;
+    }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card login-card">
+                        <div class="card-body text-center p-5">
+                            <div class="mb-4">
+                                <div style="width: 80px; height: 80px; background: #8B1538; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                    <span style="font-weight: bold; font-size: 32px; color: white;">JA</span>
+                                </div>
+                            </div>
+                            
+                            <h3 class="card-title mb-4">
+                                <i class="fas fa-shield-alt me-2"></i>Connexion Admin
+                            </h3>
+                            
+                            <p class="card-text mb-4" style="color: #666;">
+                                Accès réservé aux administrateurs de JeunAct
+                            </p>
+                            
+                            <form id="loginForm">
+                                <div class="mb-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-lock"></i>
+                                        </span>
+                                        <input type="password" 
+                                               class="form-control" 
+                                               id="adminPassword" 
+                                               placeholder="Mot de passe administrateur"
+                                               required>
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" 
+                                        class="btn w-100 mb-3" 
+                                        style="background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%); color: white; border: none; border-radius: 25px; padding: 12px; font-weight: 600; font-size: 1.1rem;">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Se connecter
+                                </button>
+                            </form>
+                            
+                            <div class="mt-4">
+                                <a href="index.html" 
+                                   class="btn" 
+                                   style="background: rgba(139, 21, 56, 0.1); color: #8B1538; border: 2px solid #8B1538; border-radius: 25px; padding: 10px 25px; font-weight: 500;">
+                                    <i class="fas fa-arrow-left me-2"></i>Retour à l'accueil
+                                </a>
+                            </div>
+                            
+                            <div class="mt-4 pt-3" style="border-top: 1px solid #e0e0e0;">
+                                <small style="color: #999;">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Mot de passe par défaut : JeunAct2024Admin
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Interface -->
+    <div id="adminInterface" style="display: none;">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <div class="d-flex align-items-center">
+                        <img src="static/logo.png" 
+                             alt="JeunAct Logo" 
+                             class="me-2" 
+                             style="width: 45px; height: 45px; object-fit: contain; background: white; border-radius: 50%; padding: 3px;"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="me-2" style="width: 45px; height: 45px; background: white; border-radius: 50%; padding: 3px; display: none; align-items: center; justify-content: center;">
+                            <span style="font-weight: bold; font-size: 16px; color: #8B1538;">JA</span>
+                        </div>
+                        <span>JeunAct</span>
+                    </div>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">
+                                <i class="fas fa-home me-1"></i>Accueil
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt me-1"></i>Déconnexion
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main class="container my-5">
+            <div id="alertsContainer"></div>
+            
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 style="color: #8B1538;"><i class="fas fa-cog me-2"></i>Administration des Membres</h2>
+                <div class="d-flex gap-2">
+                    <button class="btn" 
+                            style="background: #8B1538; color: white; border: none; border-radius: 25px; padding: 10px 25px; font-weight: 500;"
+                            onclick="showAddMemberModal()">
+                        <i class="fas fa-plus me-2"></i>Ajouter un Membre
+                    </button>
+                    <button class="btn" 
+                            style="background: rgba(220, 53, 69, 0.8); color: white; border: none; border-radius: 25px; padding: 10px 25px; font-weight: 500;"
+                            onclick="logout()">
+                        <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
+                    </button>
+                </div>
+            </div>
+
+            <div id="membersList" class="row">
+                <!-- Les membres seront chargés ici -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Member Modal -->
+    <div class="modal fade" id="addMemberModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-user-plus me-2"></i>Ajouter un Nouveau Membre
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addMemberForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nom complet *</label>
+                                <input type="text" class="form-control" id="fullName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Rôle *</label>
+                                <select class="form-select" id="role" required>
+                                    <option value="">Sélectionner un rôle</option>
+                                    <option value="Bureau">Bureau</option>
+                                    <option value="Membre">Membre</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Poste (si Bureau)</label>
+                                <input type="text" class="form-control" id="position" placeholder="Ex: Président, Secrétaire...">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">WhatsApp</label>
+                                <input type="text" class="form-control" id="whatsapp" placeholder="212600000000">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Instagram</label>
+                                <input type="text" class="form-control" id="instagram" placeholder="@username">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">LinkedIn</label>
+                                <input type="url" class="form-control" id="linkedin" placeholder="https://linkedin.com/in/username">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">TikTok</label>
+                                <input type="text" class="form-control" id="tiktok" placeholder="@username">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Portfolio</label>
+                                <input type="url" class="form-control" id="portfolio" placeholder="https://votre-portfolio.com">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Photo</label>
+                                <input type="text" class="form-control" id="photo" placeholder="nom-fichier.jpg">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Date d'intégration</label>
+                                <input type="date" class="form-control" id="integrationDate">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" 
+                            style="background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.3); border-radius: 25px; padding: 10px 25px; font-weight: 600;"
+                            data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Annuler
+                    </button>
+                    <button type="button" class="btn" 
+                            style="background: #28a745; color: white; border: none; border-radius: 25px; padding: 10px 25px; font-weight: 600;"
+                            onclick="addMember()">
+                        <i class="fas fa-save me-2"></i>Ajouter le Membre
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Member Modal -->
+    <div class="modal fade" id="editMemberModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-user-edit me-2"></i>Modifier le Membre
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editMemberForm">
+                        <input type="hidden" id="editMemberId">
+                        <!-- Même formulaire que addMemberForm -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nom complet *</label>
+                                <input type="text" class="form-control" id="editFullName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Rôle *</label>
+                                <select class="form-select" id="editRole" required>
+                                    <option value="">Sélectionner un rôle</option>
+                                    <option value="Bureau">Bureau</option>
+                                    <option value="Membre">Membre</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Poste (si Bureau)</label>
+                                <input type="text" class="form-control" id="editPosition" placeholder="Ex: Président, Secrétaire...">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="editEmail">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">WhatsApp</label>
+                                <input type="text" class="form-control" id="editWhatsapp" placeholder="212600000000">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Instagram</label>
+                                <input type="text" class="form-control" id="editInstagram" placeholder="@username">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">LinkedIn</label>
+                                <input type="url" class="form-control" id="editLinkedin" placeholder="https://linkedin.com/in/username">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">TikTok</label>
+                                <input type="text" class="form-control" id="editTiktok" placeholder="@username">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Portfolio</label>
+                                <input type="url" class="form-control" id="editPortfolio" placeholder="https://votre-portfolio.com">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Photo</label>
+                                <input type="text" class="form-control" id="editPhoto" placeholder="nom-fichier.jpg">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Date d'intégration</label>
+                                <input type="date" class="form-control" id="editIntegrationDate">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" 
+                            style="background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.3); border-radius: 25px; padding: 10px 25px; font-weight: 600;"
+                            data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Annuler
+                    </button>
+                    <button type="button" class="btn" 
+                            style="background: #007bff; color: white; border: none; border-radius: 25px; padding: 10px 25px; font-weight: 600;"
+                            onclick="updateMember()">
+                        <i class="fas fa-save me-2"></i>Mettre à jour
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div class="modal fade" id="qrModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-qrcode me-2"></i>QR Code - <span id="qrMemberName"></span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div id="qrCodeContainer" class="mb-3"></div>
+                    <p class="mb-3">Scannez ce QR code pour accéder au profil du membre</p>
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button class="btn" 
+                                style="background: #28a745; color: white; border: none; border-radius: 25px; padding: 10px 20px; font-weight: 600;"
+                                onclick="downloadQR()">
+                            <i class="fas fa-download me-2"></i>Télécharger
+                        </button>
+                        <button class="btn" 
+                                style="background: #007bff; color: white; border: none; border-radius: 25px; padding: 10px 20px; font-weight: 600;"
+                                onclick="printQR()">
+                            <i class="fas fa-print me-2"></i>Imprimer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Confirmation de suppression
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="mb-4">
+                        <i class="fas fa-trash-alt fa-4x mb-3" style="color: rgba(255,255,255,0.7);"></i>
+                    </div>
+                    <h6 class="mb-3">Êtes-vous sûr de vouloir supprimer ce membre ?</h6>
+                    <p class="mb-0" style="color: rgba(255,255,255,0.8);">
+                        Cette action est <strong>irréversible</strong> et supprimera définitivement toutes les données du membre.
+                    </p>
+                    <div class="alert alert-warning mt-3" style="background: rgba(255,193,7,0.2); border: 1px solid rgba(255,193,7,0.3); color: #ffc107;">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Membre concerné :</strong> <span id="deleteMemberName"></span>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn" 
+                            style="background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.3); border-radius: 25px; padding: 10px 25px; font-weight: 600;"
+                            data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Annuler
+                    </button>
+                    <button type="button" class="btn" 
+                            style="background: #dc3545; color: white; border: none; border-radius: 25px; padding: 10px 25px; font-weight: 600;"
+                            onclick="confirmDelete()">
+                        <i class="fas fa-trash me-2"></i>Supprimer définitivement
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    let membersData = [];
+    let currentMemberId = null;
+    let currentQRCode = null;
+
+    // Vérifier l'authentification au chargement
+    document.addEventListener('DOMContentLoaded', function() {
+        if (localStorage.getItem('adminLoggedIn') === 'true') {
+            showAdminInterface();
+        } else {
+            showLoginScreen();
+        }
+    });
+
+    // Gestion de la connexion
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const password = document.getElementById('adminPassword').value;
+        
+        // Vérifier le mot de passe (en production, ceci devrait être plus sécurisé)
+        if (password === 'JeunAct2024Admin') {
+            localStorage.setItem('adminLoggedIn', 'true');
+            showAdminInterface();
+        } else {
+            showAlert('Mot de passe incorrect.', 'danger');
+        }
+    });
+
+    function showLoginScreen() {
+        document.getElementById('loginScreen').style.display = 'flex';
+        document.getElementById('adminInterface').style.display = 'none';
+    }
+
+    function showAdminInterface() {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('adminInterface').style.display = 'block';
+        loadMembers();
+    }
+
+    function logout() {
+        localStorage.removeItem('adminLoggedIn');
+        showLoginScreen();
+    }
+
+    // Charger les membres
+    async function loadMembers() {
+        try {
+            const response = await fetch('members.json');
+            const data = await response.json();
+            membersData = data.members;
+            displayMembers();
+        } catch (error) {
+            console.error('Erreur lors du chargement des membres:', error);
+            showAlert('Erreur lors du chargement des membres.', 'danger');
+        }
+    }
+
+    // Afficher les membres
+    function displayMembers() {
+        const membersList = document.getElementById('membersList');
+        membersList.innerHTML = '';
+
+        if (membersData.length === 0) {
+            membersList.innerHTML = `
+                <div class="col-12">
+                    <div class="text-center py-5">
+                        <i class="fas fa-users fa-4x mb-4" style="color: #8B1538;"></i>
+                        <h3 style="color: #8B1538;">Aucun membre trouvé</h3>
+                        <p style="color: #666;">Commencez par ajouter votre premier membre.</p>
+                        <button class="btn" 
+                                style="background: linear-gradient(45deg, #8B1538, #E91E63); color: white; border: none; border-radius: 25px; padding: 10px 25px; font-weight: 500;"
+                                onclick="showAddMemberModal()">
+                            <i class="fas fa-plus me-2"></i>Ajouter un Membre
+                        </button>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
+        membersData.forEach(member => {
+            const memberCard = `
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card member-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="card-title mb-0" style="color: white;">${member.full_name}</h5>
+                                <span class="badge badge-role badge-${member.role.toLowerCase()}">
+                                    ${member.role === 'Bureau' && member.position ? member.position : member.role}
+                                </span>
+                            </div>
+                            <p class="mb-2" style="color: rgba(255,255,255,0.8);">
+                                <i class="fas fa-hashtag me-1"></i>#${member.member_number}
+                            </p>
+                            ${member.email ? `<p class="mb-2" style="color: rgba(255,255,255,0.8);">
+                                <i class="fas fa-envelope me-1" style="color: #EA4335;"></i>${member.email}
+                            </p>` : ''}
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                ${member.whatsapp ? `<span class="badge" style="background: #25D366; color: white; border: none;">
+                                    <i class="fab fa-whatsapp me-1"></i>WhatsApp
+                                </span>` : ''}
+                                ${member.instagram ? `<span class="badge" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; border: none;">
+                                    <i class="fab fa-instagram me-1"></i>Instagram
+                                </span>` : ''}
+                                ${member.linkedin ? `<span class="badge" style="background: #0077b5; color: white; border: none;">
+                                    <i class="fab fa-linkedin me-1"></i>LinkedIn
+                                </span>` : ''}
+                            </div>
+                            <div class="btn-group w-100" role="group">
+                                <a href="member/${member.id}.html" 
+                                   class="btn btn-sm" target="_blank" style="background: white; color: #8B1538; border: none; font-weight: 500;">
+                                    <i class="fas fa-eye me-1"></i>Voir
+                                </a>
+                                <button type="button" 
+                                        class="btn btn-sm" 
+                                        style="background: rgba(255,255,255,0.9); color: #8B1538; border: none; font-weight: 500;"
+                                        onclick="showQRModal(${member.id})">
+                                    <i class="fas fa-qrcode me-1"></i>QR
+                                </button>
+                                <button type="button" 
+                                        class="btn btn-sm" 
+                                        style="background: rgba(255,255,255,0.8); color: #8B1538; border: none; font-weight: 500;"
+                                        onclick="editMember(${member.id})">
+                                    <i class="fas fa-edit me-1"></i>Modifier
+                                </button>
+                                <button type="button" 
+                                        class="btn btn-sm" 
+                                        style="background: rgba(220, 53, 69, 0.8); color: white; border: none; font-weight: 500;"
+                                        onclick="deleteMember(${member.id})">
+                                    <i class="fas fa-trash me-1"></i>Supprimer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            membersList.innerHTML += memberCard;
+        });
+    }
+
+    // Afficher le modal d'ajout
+    function showAddMemberModal() {
+        document.getElementById('addMemberForm').reset();
+        new bootstrap.Modal(document.getElementById('addMemberModal')).show();
+    }
+
+    // Ajouter un membre
+    function addMember() {
+        const form = document.getElementById('addMemberForm');
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        const newMember = {
+            id: Math.max(...membersData.map(m => m.id), 0) + 1,
+            member_number: `MEM${String(membersData.length + 1).padStart(3, '0')}`,
+            full_name: document.getElementById('fullName').value,
+            role: document.getElementById('role').value,
+            position: document.getElementById('role').value === 'Bureau' ? document.getElementById('position').value : null,
+            email: document.getElementById('email').value || null,
+            whatsapp: document.getElementById('whatsapp').value || null,
+            instagram: document.getElementById('instagram').value || null,
+            linkedin: document.getElementById('linkedin').value || null,
+            tiktok: document.getElementById('tiktok').value || null,
+            portfolio: document.getElementById('portfolio').value || null,
+            photo: document.getElementById('photo').value || null,
+            integration_date: document.getElementById('integrationDate').value || new Date().toISOString().split('T')[0],
+            created_at: new Date().toISOString()
+        };
+
+        membersData.push(newMember);
+        saveMembers();
+        displayMembers();
+        bootstrap.Modal.getInstance(document.getElementById('addMemberModal')).hide();
+        showAlert('Membre ajouté avec succès !', 'success');
+        
+        // Créer la page du membre
+        createMemberPage(newMember);
+    }
+
+    // Modifier un membre
+    function editMember(id) {
+        const member = membersData.find(m => m.id === id);
+        if (!member) return;
+
+        // Remplir le formulaire
+        document.getElementById('editMemberId').value = member.id;
+        document.getElementById('editFullName').value = member.full_name;
+        document.getElementById('editRole').value = member.role;
+        document.getElementById('editPosition').value = member.position || '';
+        document.getElementById('editEmail').value = member.email || '';
+        document.getElementById('editWhatsapp').value = member.whatsapp || '';
+        document.getElementById('editInstagram').value = member.instagram || '';
+        document.getElementById('editLinkedin').value = member.linkedin || '';
+        document.getElementById('editTiktok').value = member.tiktok || '';
+        document.getElementById('editPortfolio').value = member.portfolio || '';
+        document.getElementById('editPhoto').value = member.photo || '';
+        document.getElementById('editIntegrationDate').value = member.integration_date || '';
+
+        new bootstrap.Modal(document.getElementById('editMemberModal')).show();
+    }
+
+    // Mettre à jour un membre
+    function updateMember() {
+        const form = document.getElementById('editMemberForm');
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        const id = parseInt(document.getElementById('editMemberId').value);
+        const memberIndex = membersData.findIndex(m => m.id === id);
+        
+        if (memberIndex === -1) return;
+
+        membersData[memberIndex] = {
+            ...membersData[memberIndex],
+            full_name: document.getElementById('editFullName').value,
+            role: document.getElementById('editRole').value,
+            position: document.getElementById('editRole').value === 'Bureau' ? document.getElementById('editPosition').value : null,
+            email: document.getElementById('editEmail').value || null,
+            whatsapp: document.getElementById('editWhatsapp').value || null,
+            instagram: document.getElementById('editInstagram').value || null,
+            linkedin: document.getElementById('editLinkedin').value || null,
+            tiktok: document.getElementById('editTiktok').value || null,
+            portfolio: document.getElementById('editPortfolio').value || null,
+            photo: document.getElementById('editPhoto').value || null,
+            integration_date: document.getElementById('editIntegrationDate').value || membersData[memberIndex].integration_date
+        };
+
+        saveMembers();
+        displayMembers();
+        bootstrap.Modal.getInstance(document.getElementById('editMemberModal')).hide();
+        showAlert('Membre mis à jour avec succès !', 'success');
+        
+        // Mettre à jour la page du membre
+        createMemberPage(membersData[memberIndex]);
+    }
+
+    // Supprimer un membre
+    function deleteMember(id) {
+        const member = membersData.find(m => m.id === id);
+        if (!member) return;
+
+        currentMemberId = id;
+        document.getElementById('deleteMemberName').textContent = member.full_name;
+        new bootstrap.Modal(document.getElementById('deleteModal')).show();
+    }
+
+    // Confirmer la suppression
+    function confirmDelete() {
+        if (currentMemberId === null) return;
+
+        membersData = membersData.filter(m => m.id !== currentMemberId);
+        saveMembers();
+        displayMembers();
+        bootstrap.Modal.getInstance(document.getElementById('deleteModal')).hide();
+        showAlert('Membre supprimé avec succès !', 'success');
+        
+        currentMemberId = null;
+    }
+
+    // Afficher le modal QR
+    function showQRModal(id) {
+        const member = membersData.find(m => m.id === id);
+        if (!member) return;
+
+        document.getElementById('qrMemberName').textContent = member.full_name;
+        
+        // Générer le QR code
+        const qrContainer = document.getElementById('qrCodeContainer');
+        qrContainer.innerHTML = '';
+        
+        const memberUrl = `${window.location.origin}/member/${member.id}.html`;
+        
+        QRCode.toCanvas(qrContainer, memberUrl, {
+            width: 200,
+            height: 200,
+            color: {
+                dark: '#8B1538',
+                light: '#FFFFFF'
+            }
+        }, function (error) {
+            if (error) {
+                console.error('Erreur génération QR:', error);
+                qrContainer.innerHTML = '<p style="color: white;">Erreur lors de la génération du QR code</p>';
+            }
+        });
+
+        currentQRCode = memberUrl;
+        new bootstrap.Modal(document.getElementById('qrModal')).show();
+    }
+
+    // Télécharger le QR code
+    function downloadQR() {
+        const canvas = document.querySelector('#qrCodeContainer canvas');
+        if (canvas) {
+            const link = document.createElement('a');
+            link.download = `qr-${document.getElementById('qrMemberName').textContent.replace(/\s+/g, '-')}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    }
+
+    // Imprimer le QR code
+    function printQR() {
+        const canvas = document.querySelector('#qrCodeContainer canvas');
+        if (canvas) {
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                    <head><title>QR Code - ${document.getElementById('qrMemberName').textContent}</title></head>
+                    <body style="text-align: center; padding: 20px;">
+                        <h2>QR Code - ${document.getElementById('qrMemberName').textContent}</h2>
+                        <img src="${canvas.toDataURL()}" style="max-width: 100%;">
+                        <p>Scannez ce QR code pour accéder au profil</p>
+                    </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+    }
+
+    // Sauvegarder les membres (simulation - en réalité, il faudrait un serveur)
+    function saveMembers() {
+        // En production, ceci devrait envoyer les données à un serveur
+        // Pour l'instant, on simule la sauvegarde
+        console.log('Membres sauvegardés:', membersData);
+        
+        // Générer le code JSON à copier
+        const jsonData = {
+            members: membersData,
+            settings: {
+                admin_password: "JeunAct2024Admin",
+                site_url: window.location.origin
+            }
+        };
+        
+        // Afficher le code à copier
+        showAlert(`
+            <strong>Code JSON à copier dans members.json :</strong><br>
+            <textarea readonly style="width: 100%; height: 200px; margin-top: 10px; font-family: monospace; font-size: 12px;">${JSON.stringify(jsonData, null, 2)}</textarea>
+        `, 'info');
+    }
+
+    // Créer la page d'un membre
+    function createMemberPage(member) {
+        // Cette fonction génère le code HTML pour la page du membre
+        const memberPageHTML = generateMemberPageHTML(member);
+        
+        showAlert(`
+            <strong>Code HTML pour member/${member.id}.html :</strong><br>
+            <textarea readonly style="width: 100%; height: 300px; margin-top: 10px; font-family: monospace; font-size: 12px;">${memberPageHTML}</textarea>
+        `, 'info');
+    }
+
+    // Générer le HTML de la page membre
+    function generateMemberPageHTML(member) {
+        return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="icon" href="../static/favicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${member.full_name} - JeunAct</title>
+    <link rel="icon" type="image/png" href="../static/favicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #FFFFFF;
+        min-height: 100vh;
+    }
+    .card {
+        border: none;
+        border-radius: 30px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        overflow: hidden;
+        background: white;
+    }
+    .social-btn-round {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s;
+    }
+    .social-btn-round:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        text-decoration: none;
+    }
+    </style>
+</head>
+<body>
+    <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="col-lg-5 col-md-7 col-sm-10">
+            <div class="card">
+                <div style="background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%); padding: 40px 40px 30px; text-align: center; position: relative;">
+                    <div style="position: absolute; top: 15px; left: 20px;">
+                        <img src="../static/logo.png" 
+                             alt="JeunAct Logo" 
+                             style="width: 55px; height: 55px; border-radius: 50%; object-fit: contain; background: white; border: 3px solid rgba(255,255,255,0.4); padding: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div style="width: 55px; height: 55px; border-radius: 50%; background: white; border: 3px solid rgba(255,255,255,0.4); padding: 5px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: none; align-items: center; justify-content: center;">
+                            <span style="font-weight: bold; font-size: 18px; color: #8B1538;">JA</span>
+                        </div>
+                    </div>
+                    
+                    <span class="badge" style="position: absolute; top: 20px; right: 20px; font-size: 0.85rem; padding: 8px 12px; border-radius: 25px; font-weight: 600; ${member.role === 'Bureau' ? 'background: linear-gradient(135deg, #FFD700, #FFA500); color: #000000; border: 2px solid rgba(255,215,0,0.8);' : 'background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.5);'}">
+                        ${member.role === 'Bureau' && member.position ? member.position : member.role}
+                    </span>
+                    
+                    <div style="margin-bottom: 25px;">
+                        ${member.photo ? `
+                            <img src="../static/photos/${member.photo}" 
+                                 alt="${member.full_name}" 
+                                 style="width: 120px; height: 120px; border-radius: 50%; border: 5px solid rgba(255,255,255,0.3); object-fit: cover; box-shadow: 0 8px 25px rgba(0,0,0,0.3); display: inline-block;"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                            <div style="width: 120px; height: 120px; border-radius: 50%; border: 5px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.2); display: none; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(0,0,0,0.3);">
+                                <i class="fas fa-user" style="font-size: 50px; color: white;"></i>
+                            </div>
+                        ` : `
+                            <div style="width: 120px; height: 120px; border-radius: 50%; border: 5px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.2); display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(0,0,0,0.3);">
+                                <i class="fas fa-user" style="font-size: 50px; color: white;"></i>
+                            </div>
+                        `}
+                    </div>
+                    
+                    <h2 style="color: white; font-weight: 700; margin-bottom: 12px; font-size: 2.2rem; text-shadow: 0 2px 10px rgba(0,0,0,0.2);">${member.full_name}</h2>
+                </div>
+
+                <div class="card-body" style="padding: 35px 40px 30px;">
+                    <h5 style="color: #000000; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-link" style="color: #8B1538;"></i>
+                        <span>Contact & Réseaux</span>
+                    </h5>
+
+                    <div class="d-flex justify-content-center flex-wrap gap-3 mb-4">
+                        ${member.whatsapp ? `
+                        <a href="https://wa.me/${member.whatsapp}" target="_blank" 
+                           class="social-btn-round" 
+                           style="background: #25D366; color: white;"
+                           title="WhatsApp">
+                            <i class="fab fa-whatsapp" style="font-size: 32px;"></i>
+                        </a>
+                        ` : ''}
+
+                        ${member.instagram ? `
+                        <a href="https://instagram.com/${member.instagram}" target="_blank" 
+                           class="social-btn-round" 
+                           style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white;"
+                           title="Instagram">
+                            <i class="fab fa-instagram" style="font-size: 32px;"></i>
+                        </a>
+                        ` : ''}
+
+                        ${member.tiktok ? `
+                        <a href="https://tiktok.com/${member.tiktok}" target="_blank" 
+                           class="social-btn-round" 
+                           style="background: #000000; color: white;"
+                           title="TikTok">
+                            <i class="fab fa-tiktok" style="font-size: 32px;"></i>
+                        </a>
+                        ` : ''}
+
+                        ${member.email ? `
+                        <a href="mailto:${member.email}" 
+                           class="social-btn-round" 
+                           style="background: #EA4335; color: white;"
+                           title="Email">
+                            <i class="fas fa-envelope" style="font-size: 28px;"></i>
+                        </a>
+                        ` : ''}
+
+                        ${member.linkedin ? `
+                        <a href="${member.linkedin}" target="_blank" 
+                           class="social-btn-round" 
+                           style="background: #0077b5; color: white;"
+                           title="LinkedIn">
+                            <i class="fab fa-linkedin" style="font-size: 32px;"></i>
+                        </a>
+                        ` : ''}
+
+                        ${member.portfolio ? `
+                        <a href="${member.portfolio}" target="_blank" 
+                           class="social-btn-round" 
+                           style="background: linear-gradient(45deg, #667eea 0%, #764ba2 100%); color: white;"
+                           title="Portfolio">
+                            <i class="fas fa-briefcase" style="font-size: 28px;"></i>
+                        </a>
+                        ` : ''}
+                    </div>
+
+                    <div style="border-top: 2px solid #cbd5e0; margin: 25px 0;"></div>
+
+                    <div class="text-center">
+                        <p style="color: #000000; font-size: 0.9rem; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600;">
+                            <i class="fas fa-qrcode" style="color: #8B1538;"></i>
+                            <span>Scanné depuis un badge JeunAct</span>
+                        </p>
+                        <p style="color: #000000; font-size: 0.85rem; margin: 0; font-weight: 600;">
+                            Membre depuis - ${new Date(member.integration_date).toLocaleDateString('fr-FR')}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>`;
+    }
+
+    // Afficher une alerte
+    function showAlert(message, type) {
+        const alertsContainer = document.getElementById('alertsContainer');
+        const alertId = 'alert-' + Date.now();
+        
+        const alertHTML = `
+            <div id="${alertId}" class="alert alert-${type} alert-dismissible fade show" role="alert">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
+                    <div>${message}</div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `;
+        
+        alertsContainer.innerHTML = alertHTML;
+        
+        // Auto-supprimer après 5 secondes
+        setTimeout(() => {
+            const alertElement = document.getElementById(alertId);
+            if (alertElement) {
+                alertElement.remove();
+            }
+        }, 5000);
+    }
+    </script>
+</body>
+</html>`;
