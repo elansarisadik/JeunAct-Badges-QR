@@ -1,79 +1,23 @@
-# 🚀 QR Code Jeunact
+# JeunAct Association - Badges QR
 
-Application Flask de gestion des membres avec génération de QR codes pour l'association JeunAct.
+Système de badges QR pour les membres de l'association JeunAct.
 
-## ✨ Fonctionnalités
+## 🌐 Site Web
 
-- 📱 Génération de QR codes pour les membres
-- 👥 Gestion des membres (Bureau/Membres)
-- 🔗 Profils avec réseaux sociaux
-- 📊 Interface d'administration
-- 🖼️ Gestion des photos de profil
+**URL** : https://elansarisadq.github.io/JeunAct-Association/
 
-## 🚀 Installation et utilisation
+## 📱 Fonctionnalités
 
-### Prérequis
-- Python 3.8+
-- pip
+- ✅ Pages statiques compatibles GitHub Pages
+- ✅ Design moderne et responsive
+- ✅ Liste des membres avec réseaux sociaux
+- ✅ QR Codes pour chaque membre
+- ✅ Pas de serveur requis
 
-### Installation
-```bash
-# Cloner le repository
-git clone https://github.com/elansarisadik/JeunAct-Badges-QR.git
-cd JeunAct-Badges-QR
+## 🚀 Déploiement
 
-# Installer les dépendances
-pip install -r requirements.txt
+Ce site est déployé automatiquement sur GitHub Pages.
 
-# Copier le fichier de configuration
-cp env.example .env
+## 📞 Contact
 
-# Éditer .env avec vos paramètres
-# PRODUCTION_URL=https://votre-domaine.com
-```
-
-### Lancement
-```bash
-python app.py
-```
-
-L'application sera disponible sur : http://localhost:5000
-
-## 🔧 Configuration
-
-### Variables d'environnement (.env)
-
-- `PRODUCTION_URL` : URL de production pour les QR codes
-- `SECRET_KEY` : Clé secrète Flask
-- `DATABASE_URL` : URL de base de données (optionnel, utilise SQLite par défaut)
-
-## 📁 Structure du projet
-
-```
-├── app.py              # Application Flask principale
-├── config.py           # Configuration
-├── requirements.txt    # Dépendances Python
-├── templates/          # Templates HTML
-├── static/             # Fichiers statiques (CSS, images)
-└── instance/           # Base de données SQLite
-```
-
-## 🎯 Utilisation
-
-1. **Accueil** : Page principale avec informations
-2. **Admin** : Interface d'administration (`/admin`)
-3. **Ajouter membre** : Formulaire d'ajout (`/add_member`)
-4. **Profil membre** : Page de profil (`/member/<id>`)
-5. **QR Code** : Génération de QR code (`/generate_qr/<id>`)
-
-## 📱 QR Codes
-
-Les QR codes générés pointent vers les profils des membres et contiennent toutes les informations de contact.
-
-## 🗄️ Base de données
-
-L'application utilise SQLite par défaut, mais peut être configurée pour utiliser PostgreSQL ou MySQL.
-
----
-
-**🚀 Développé avec ❤️ pour JeunAct**
+Pour toute question, contactez l'équipe JeunAct.
