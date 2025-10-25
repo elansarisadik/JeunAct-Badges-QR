@@ -10,6 +10,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.js"></script>
     <style>
     body {
         font-family: 'Poppins', sans-serif;
@@ -222,7 +223,8 @@
                                                class="form-control" 
                                                id="adminPassword" 
                                                placeholder="Mot de passe administrateur"
-                                               required>
+                                               required
+                                               style="border: 2px solid #8B1538; border-left: none; padding: 12px 15px; font-size: 1rem; color: #333;">
                                     </div>
                                 </div>
                                 
@@ -335,7 +337,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Rôle *</label>
-                                <select class="form-select" id="role" required>
+                                <select class="form-select" id="role" required onchange="togglePositionField()">
                                     <option value="">Sélectionner un rôle</option>
                                     <option value="Bureau">Bureau</option>
                                     <option value="Membre">Membre</option>
@@ -427,7 +429,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Rôle *</label>
-                                <select class="form-select" id="editRole" required>
+                                <select class="form-select" id="editRole" required onchange="toggleEditPositionField()">
                                     <option value="">Sélectionner un rôle</option>
                                     <option value="Bureau">Bureau</option>
                                     <option value="Membre">Membre</option>
@@ -711,7 +713,25 @@
     // Afficher le modal d'ajout
     function showAddMemberModal() {
         document.getElementById('addMemberForm').reset();
+        document.getElementById('position').style.display = 'none';
+        document.querySelector('label[for="position"]').style.display = 'none';
         new bootstrap.Modal(document.getElementById('addMemberModal')).show();
+    }
+
+    // Afficher/masquer le champ position selon le rôle
+    function togglePositionField() {
+        const role = document.getElementById('role').value;
+        const positionField = document.getElementById('position');
+        const positionLabel = document.querySelector('label[for="position"]');
+        
+        if (role === 'Bureau') {
+            positionField.style.display = 'block';
+            positionLabel.style.display = 'block';
+        } else {
+            positionField.style.display = 'none';
+            positionLabel.style.display = 'none';
+            positionField.value = '';
+        }
     }
 
     // Ajouter un membre
@@ -768,7 +788,25 @@
         document.getElementById('editPhoto').value = member.photo || '';
         document.getElementById('editIntegrationDate').value = member.integration_date || '';
 
+        // Afficher/masquer le champ position
+        toggleEditPositionField();
+
         new bootstrap.Modal(document.getElementById('editMemberModal')).show();
+    }
+
+    // Afficher/masquer le champ position dans l'édition
+    function toggleEditPositionField() {
+        const role = document.getElementById('editRole').value;
+        const positionField = document.getElementById('editPosition');
+        const positionLabel = document.querySelector('label[for="editPosition"]');
+        
+        if (role === 'Bureau') {
+            positionField.style.display = 'block';
+            positionLabel.style.display = 'block';
+        } else {
+            positionField.style.display = 'none';
+            positionLabel.style.display = 'none';
+        }
     }
 
     // Mettre à jour un membre
@@ -844,17 +882,24 @@
         
         const memberUrl = `${window.location.origin}/member/${member.id}.html`;
         
-        QRCode.toCanvas(qrContainer, memberUrl, {
+        // Créer un canvas pour le QR code
+        const canvas = document.createElement('canvas');
+        qrContainer.appendChild(canvas);
+        
+        QRCode.toCanvas(canvas, memberUrl, {
             width: 200,
             height: 200,
             color: {
                 dark: '#8B1538',
                 light: '#FFFFFF'
-            }
+            },
+            margin: 2
         }, function (error) {
             if (error) {
                 console.error('Erreur génération QR:', error);
                 qrContainer.innerHTML = '<p style="color: white;">Erreur lors de la génération du QR code</p>';
+            } else {
+                console.log('QR code généré avec succès');
             }
         });
 
@@ -1078,7 +1123,7 @@
                             <span>Scanné depuis un badge JeunAct</span>
                         </p>
                         <p style="color: #000000; font-size: 0.85rem; margin: 0; font-weight: 600;">
-                            Membre depuis - ${new Date(member.integration_date).toLocaleDateString('fr-FR')}
+                            Membre depuis - ${member.integration_date ? new Date(member.integration_date).toLocaleDateString('fr-FR') : '19/10/2024'}
                         </p>
                     </div>
                 </div>
