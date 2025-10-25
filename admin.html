@@ -42,10 +42,32 @@
             border-radius: 10px;
             border: 2px solid #e9ecef;
             padding: 12px 15px;
+            background: white;
         }
         .form-control:focus {
             border-color: #8B1538;
             box-shadow: 0 0 0 0.2rem rgba(139, 21, 56, 0.25);
+            background: white;
+        }
+        .form-label {
+            color: #8B1538;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%);
+            color: white;
+            border-radius: 20px 20px 0 0;
+            border: none;
+        }
+        .card-header h3 {
+            color: white;
+            margin: 0;
         }
         .qr-code {
             background: white;
@@ -110,6 +132,26 @@
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">LinkedIn</label>
                                         <input type="url" class="form-control" id="linkedin" placeholder="https://linkedin.com/in/...">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Facebook</label>
+                                        <input type="text" class="form-control" id="facebook" placeholder="nom_utilisateur">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">TikTok</label>
+                                        <input type="text" class="form-control" id="tiktok" placeholder="nom_utilisateur">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Portfolio</label>
+                                        <input type="url" class="form-control" id="portfolio" placeholder="https://votre-portfolio.com">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Photo (nom du fichier)</label>
+                                        <input type="text" class="form-control" id="photo" placeholder="NOM_PHOTO.jpg">
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">
@@ -199,8 +241,50 @@
             if (member) {
                 const qrUrl = `https://elansarisadq.github.io/JeunAct-Association/member/${memberId}.html`;
                 
-                // Afficher le QR Code (simulation)
-                alert(`QR Code généré pour ${member.name}!\n\nURL: ${qrUrl}\n\nCopiez cette URL pour créer un QR Code avec un générateur en ligne.`);
+                // Créer une modal pour afficher le QR Code
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 9999;
+                `;
+                
+                modal.innerHTML = `
+                    <div style="background: white; border-radius: 20px; padding: 30px; text-align: center; max-width: 400px; margin: 20px;">
+                        <h4 style="color: #8B1538; margin-bottom: 20px;">QR Code - ${member.name}</h4>
+                        <div id="qrCodeContainer" style="margin: 20px 0;"></div>
+                        <p style="color: #666; font-size: 0.9rem; margin-bottom: 20px;">
+                            Scannez ce QR code pour accéder au profil
+                        </p>
+                        <button onclick="this.parentElement.parentElement.remove()" 
+                                style="background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%); 
+                                       color: white; border: none; border-radius: 25px; 
+                                       padding: 12px 30px; font-weight: 600; cursor: pointer;">
+                            Fermer
+                        </button>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                // Générer le QR Code
+                const qrContainer = modal.querySelector('#qrCodeContainer');
+                const canvas = document.createElement('canvas');
+                qrContainer.appendChild(canvas);
+                
+                // Utiliser une API simple pour générer le QR Code
+                const qrImg = document.createElement('img');
+                qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrUrl)}`;
+                qrImg.style.cssText = 'width: 200px; height: 200px; border-radius: 10px;';
+                qrContainer.innerHTML = '';
+                qrContainer.appendChild(qrImg);
             }
         }
 
@@ -231,7 +315,11 @@
                 email: document.getElementById('email').value,
                 whatsapp: document.getElementById('whatsapp').value,
                 instagram: document.getElementById('instagram').value,
-                linkedin: document.getElementById('linkedin').value
+                linkedin: document.getElementById('linkedin').value,
+                facebook: document.getElementById('facebook').value,
+                tiktok: document.getElementById('tiktok').value,
+                portfolio: document.getElementById('portfolio').value,
+                photo: document.getElementById('photo').value
             };
             
             members.push(newMember);
