@@ -305,6 +305,11 @@
                         <i class="fas fa-plus me-2"></i>Ajouter un Membre
                     </button>
                     <button class="btn" 
+                            style="background: rgba(255, 193, 7, 0.8); color: white; border: none; border-radius: 25px; padding: 10px 25px; font-weight: 500;"
+                            onclick="resetData()">
+                        <i class="fas fa-refresh me-2"></i>Réinitialiser
+                    </button>
+                    <button class="btn" 
                             style="background: rgba(220, 53, 69, 0.8); color: white; border: none; border-radius: 25px; padding: 10px 25px; font-weight: 500;"
                             onclick="logout()">
                         <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
@@ -614,12 +619,36 @@
         showLoginScreen();
     }
 
+    // Réinitialiser les données
+    function resetData() {
+        if (confirm('Êtes-vous sûr de vouloir réinitialiser toutes les données ? Cette action supprimera tous les membres ajoutés.')) {
+            localStorage.removeItem('jeunact_members');
+            membersData = [];
+            displayMembers();
+            showAlert('Données réinitialisées avec succès !', 'success');
+        }
+    }
+
     // Charger les membres
     async function loadMembers() {
         try {
+            // D'abord essayer de charger depuis localStorage
+            const savedData = localStorage.getItem('jeunact_members');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                membersData = data.members || [];
+                displayMembers();
+                return;
+            }
+            
+            // Si pas de données sauvegardées, charger depuis le fichier JSON
             const response = await fetch('members.json');
             const data = await response.json();
             membersData = data.members;
+            
+            // Sauvegarder dans localStorage pour la première fois
+            localStorage.setItem('jeunact_members', JSON.stringify(data));
+            
             displayMembers();
         } catch (error) {
             console.error('Erreur lors du chargement des membres:', error);
@@ -938,14 +967,9 @@
         }
     }
 
-    // Sauvegarder les membres (simulation - en réalité, il faudrait un serveur)
+    // Sauvegarder les membres dans localStorage
     function saveMembers() {
-        // En production, ceci devrait envoyer les données à un serveur
-        // Pour l'instant, on simule la sauvegarde
-        console.log('Membres sauvegardés:', membersData);
-        
-        // Générer le code JSON à copier
-        const jsonData = {
+        const data = {
             members: membersData,
             settings: {
                 admin_password: "JeunAct2024Admin",
@@ -953,11 +977,15 @@
             }
         };
         
-        // Afficher le code à copier
+        // Sauvegarder dans localStorage
+        localStorage.setItem('jeunact_members', JSON.stringify(data));
+        
+        // Afficher le code JSON à copier pour mise à jour du fichier
         showAlert(`
-            <strong>Code JSON à copier dans members.json :</strong><br>
-            <textarea readonly style="width: 100%; height: 200px; margin-top: 10px; font-family: monospace; font-size: 12px;">${JSON.stringify(jsonData, null, 2)}</textarea>
-        `, 'info');
+            <strong>Données sauvegardées localement !</strong><br>
+            <small>Pour mettre à jour le fichier members.json, copiez ce code :</small><br>
+            <textarea readonly style="width: 100%; height: 200px; margin-top: 10px; font-family: monospace; font-size: 12px;">${JSON.stringify(data, null, 2)}</textarea>
+        `, 'success');
     }
 
     // Créer la page d'un membre
