@@ -1,281 +1,162 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="icon" href="static/favicon.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="JeunAct - Système de badges QR pour les membres de l'association">
-    <meta name="keywords" content="JeunAct, badges, QR code, association, membres">
-    <meta name="author" content="JeunAct">
-    <meta property="og:title" content="JeunAct - Badges QR">
-    <meta property="og:description" content="Système de badges QR pour les membres de l'association JeunAct">
-    <meta property="og:image" content="static/logo.png">
-    <meta property="og:type" content="website">
-    <title>JeunAct - Badges QR</title>
-    <link rel="icon" type="image/png" href="static/favicon.png">
-    <link rel="shortcut icon" type="image/png" href="static/favicon.png">
+    <title>JeunAct Association - Badges QR</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-        font-family: 'Poppins', sans-serif;
-        background: #FFFFFF;
-        min-height: 100vh;
-    }
-    .navbar {
-        background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%) !important;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    .navbar-brand {
-        color: #FFFFFF !important;
-        font-weight: 700;
-    }
-    .navbar-nav .nav-link {
-        color: #FFFFFF !important;
-        font-weight: 500;
-    }
-    .navbar-nav .nav-link:hover {
-        color: rgba(255,255,255,0.8) !important;
-    }
-    .navbar-brand {
-        font-weight: 700;
-        font-size: 1.5rem;
-    }
-    .card {
-        border: none;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        backdrop-filter: blur(10px);
-        background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%);
-        color: white;
-        transition: all 0.4s ease;
-        position: relative;
-    }
-    .btn-primary {
-        background: white;
-        color: #8B1538;
-        border: 2px solid #8B1538;
-        border-radius: 25px;
-        padding: 10px 25px;
-        font-weight: 500;
-    }
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        background: #8B1538;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            padding-top: 50px;
+        }
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            background: white;
+        }
+        .logo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
             color: white;
-    }
-    .jeunact-logo-large {
-        width: 120px;
-        height: 120px;
-        background: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        box-shadow: 0 10px 30px rgba(139, 21, 56, 0.3);
-        margin: 0 auto 20px;
-    }
-    .jeunact-logo-large::before {
-        content: "JA";
-        font-weight: bold;
-        font-size: 48px;
-        color: #8B1538;
-        position: relative;
-    }
-    .card h1, .card h2, .card h3, .card h4, .card h5, .card h6,
-    .card p, .card .text-muted {
-        color: white !important;
+            font-size: 2rem;
+            font-weight: bold;
         }
-        .btn {
-        transition: all 0.3s ease;
-        position: relative;
-        z-index: 10;
+        .btn-primary {
+            background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
         }
-        .btn:hover {
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    }
-    .btn[style*="background: white"]:hover,
-    .btn[style*="background: rgba(255,255,255,0.9)"]:hover {
-        box-shadow: 0 15px 40px rgba(255,255,255,0.5);
-    }
-    .btn[style*="background: rgba(255,255,255,0.2)"]:hover {
-        background: rgba(255,255,255,0.35) !important;
-    }
-    .btn[style*="background: #8B1538"]:hover,
-    .btn[style*="background: #E91E63"]:hover {
-        filter: brightness(1.2);
-        box-shadow: 0 15px 40px rgba(139, 21, 56, 0.6);
-    }
-    .btn-group .btn {
-        transition: all 0.3s ease;
-        position: relative;
-        z-index: 10;
-    }
-    .btn-group .btn:hover {
-        z-index: 20;
-        transform: translateY(-3px) scale(1.08);
-    }
-    .card-white {
-        background: white !important;
-        color: #333 !important;
-    }
-    .card-white h5,
-    .card-white .card-title {
-        color: #8B1538 !important;
-    }
-    .card-white .card-text {
-        color: #666 !important;
-    }
-    .card-white i {
-        color: #8B1538 !important;
-    }
-    .card-white .btn {
-        position: relative;
-        z-index: 10;
-    }
-    .card-white .btn:hover {
-        transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 10px 25px rgba(139, 21, 56, 0.4);
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(139, 21, 56, 0.3);
         }
+        .member-card {
+            background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .member-card .card-body {
+            padding: 20px;
+        }
+        .badge {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s;
+        }
+        .social-btn:hover {
+            transform: translateY(-3px);
+            color: white;
+        }
+        .whatsapp { background: #25D366; }
+        .instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .linkedin { background: #0077b5; }
+        .email { background: #EA4335; }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
     <div class="container">
-            <a class="navbar-brand" href="index.html">
-                <div class="d-flex align-items-center">
-                    <img src="static/logo.png" 
-                         alt="JeunAct Logo" 
-                         class="me-2" 
-                         style="width: 45px; height: 45px; object-fit: contain; background: white; border-radius: 50%; padding: 3px;"
-                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="me-2" style="width: 45px; height: 45px; background: white; border-radius: 50%; padding: 3px; display: none; align-items: center; justify-content: center;">
-                        <span style="font-weight: bold; font-size: 16px; color: #8B1538;">JA</span>
-                    </div>
-                    <span>JeunAct</span>
-                </div>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">
-                            <i class="fas fa-home me-1"></i>Accueil
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="admin-simple.html">
-                            <i class="fas fa-shield-alt me-1"></i>Admin
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <main class="container my-5">
-        <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
-            <div class="col-lg-6 col-md-8 col-sm-10">
-                <div class="card card-white text-center p-5">
-                    <div class="jeunact-logo-large"></div>
-                    
-                    <h1 style="color: #8B1538; font-weight: 700; margin-bottom: 20px;">
-                        JeunAct
-                    </h1>
-                    
-                    <h3 style="color: #8B1538; font-weight: 600; margin-bottom: 30px;">
-                        Système de Badges QR
-                    </h3>
-                    
-                    <p style="color: #666; font-size: 1.1rem; margin-bottom: 40px; line-height: 1.6;">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card text-center p-5">
+                    <div class="logo">JA</div>
+                    <h1 class="mb-3" style="color: #8B1538;">JeunAct Association</h1>
+                    <h3 class="mb-4" style="color: #666;">Système de Badges QR</h3>
+                    <p class="mb-4" style="color: #666;">
                         Scannez les badges QR des membres pour découvrir leurs profils et réseaux sociaux.
                     </p>
-                    
-                    <div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
-                        <a href="admin-simple.html" 
-                           class="btn" 
-                           style="background: linear-gradient(135deg, #8B1538 0%, #E91E63 100%); color: white; border: none; border-radius: 25px; padding: 12px 30px; font-weight: 600; font-size: 1.1rem;">
-                            <i class="fas fa-shield-alt me-2"></i>Administration
-                        </a>
-                        
-                        <a href="#members" 
-                           class="btn" 
-                           style="background: rgba(139, 21, 56, 0.1); color: #8B1538; border: 2px solid #8B1538; border-radius: 25px; padding: 12px 30px; font-weight: 600; font-size: 1.1rem;">
-                            <i class="fas fa-users me-2"></i>Voir les Membres
-                        </a>
-                    </div>
+                    <a href="#members" class="btn btn-primary">
+                        <i class="fas fa-users me-2"></i>Voir les Membres
+                    </a>
                 </div>
             </div>
         </div>
 
-        <!-- Section Membres -->
         <div id="members" class="row mt-5">
             <div class="col-12">
-                <h2 style="color: #8B1538; text-align: center; margin-bottom: 40px;">
+                <h2 class="text-center mb-4" style="color: white;">
                     <i class="fas fa-users me-2"></i>Nos Membres
                 </h2>
             </div>
             <div id="membersList" class="row">
-                <!-- Les membres seront chargés ici par JavaScript -->
+                <!-- Les membres seront chargés ici -->
             </div>
         </div>
-    </main>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-    // Charger et afficher les membres
-    async function loadMembers() {
-        try {
-            const members = [{"id": 1, "member_number": "MEM001", "full_name": "Hamza El Ansari", "role": "Bureau", "position": "Président", "email": "hamza@jeunact.ma", "whatsapp": "212600000000", "instagram": "hamza_elansari", "linkedin": "https://linkedin.com/in/hamza-elansari", "tiktok": "hamza_jeunact", "portfolio": "https://hamza-portfolio.com", "photo": "HAMZA.jpg", "integration_date": "2024-01-15", "bio": "Passionné par l'entrepreneuriat et l'innovation sociale."}, {"id": 2, "member_number": "MEM002", "full_name": "Sadeq Benali", "role": "Bureau", "position": "Vice-Président", "email": "sadeq@jeunact.ma", "whatsapp": "212600000001", "instagram": "sadeq_benali", "linkedin": "https://linkedin.com/in/sadeq-benali", "photo": "SADEQ.jpg", "integration_date": "2024-01-20", "bio": "Expert en développement communautaire et leadership."}];
+        // Données des membres
+        const members = [
+            {
+                id: 1,
+                name: "Hamza El Ansari",
+                role: "Président",
+                email: "hamza@jeunact.ma",
+                whatsapp: "212600000000",
+                instagram: "hamza_elansari",
+                linkedin: "https://linkedin.com/in/hamza-elansari",
+                photo: "HAMZA.jpg"
+            },
+            {
+                id: 2,
+                name: "Sadeq Benali",
+                role: "Vice-Président",
+                email: "sadeq@jeunact.ma",
+                whatsapp: "212600000001",
+                instagram: "sadeq_benali",
+                linkedin: "https://linkedin.com/in/sadeq-benali",
+                photo: "SADEQ.jpg"
+            }
+        ];
+
+        // Fonction pour charger les membres
+        function loadMembers() {
             const membersList = document.getElementById('membersList');
-            
             membersList.innerHTML = '';
-            
+
             members.forEach(member => {
                 const memberCard = `
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card member-card">
+                    <div class="col-lg-6 col-md-6 mb-4">
+                        <div class="member-card">
                             <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <h5 class="card-title mb-0" style="color: white;">${member.full_name}</h5>
-                                    <span class="badge" style="background: ${member.role === 'Bureau' ? 'linear-gradient(135deg, #FFD700, #FFA500); color: #000000;' : 'rgba(255,255,255,0.2); color: white;'} border: 2px solid rgba(255,255,255,0.3); font-size: 0.8rem; padding: 8px 12px; border-radius: 20px;">
-                                        ${member.role === 'Bureau' && member.position ? member.position : member.role}
-                                    </span>
-                                </div>
-                                <p class="mb-2" style="color: rgba(255,255,255,0.8);">
-                                    <i class="fas fa-hashtag me-1"></i>#${member.member_number}
+                                <h5 class="card-title mb-3">${member.name}</h5>
+                                <p class="mb-3">
+                                    <span class="badge">${member.role}</span>
                                 </p>
-                                ${member.email ? `<p class="mb-2" style="color: rgba(255,255,255,0.8);">
-                                    <i class="fas fa-envelope me-1" style="color: #EA4335;"></i>${member.email}
-                                </p>` : ''}
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    ${member.whatsapp ? `<span class="badge" style="background: #25D366; color: white; border: none;">
-                                        <i class="fab fa-whatsapp me-1"></i>WhatsApp
-                                    </span>` : ''}
-                                    ${member.instagram ? `<span class="badge" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; border: none;">
-                                        <i class="fab fa-instagram me-1"></i>Instagram
-                                    </span>` : ''}
-                                    ${member.linkedin ? `<span class="badge" style="background: #0077b5; color: white; border: none;">
-                                        <i class="fab fa-linkedin me-1"></i>LinkedIn
-                                    </span>` : ''}
-                                </div>
-                                <div class="btn-group w-100" role="group">
-                                    <a href="member/${member.id}.html" 
-                                       class="btn btn-sm" target="_blank" style="background: white; color: #8B1538; border: none; font-weight: 500;">
-                                        <i class="fas fa-eye me-1"></i>Voir
-                                    </a>
-                                    <button type="button" 
-                                            class="btn btn-sm" 
-                                            style="background: rgba(255,255,255,0.9); color: #8B1538; border: none; font-weight: 500;"
-                                            onclick="generateQR(${member.id})">
-                                        <i class="fas fa-qrcode me-1"></i>QR
-                                    </button>
+                                <div class="d-flex justify-content-center flex-wrap">
+                                    ${member.whatsapp ? `<a href="https://wa.me/${member.whatsapp}" target="_blank" class="social-btn whatsapp" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>` : ''}
+                                    ${member.instagram ? `<a href="https://instagram.com/${member.instagram}" target="_blank" class="social-btn instagram" title="Instagram"><i class="fab fa-instagram"></i></a>` : ''}
+                                    ${member.linkedin ? `<a href="${member.linkedin}" target="_blank" class="social-btn linkedin" title="LinkedIn"><i class="fab fa-linkedin"></i></a>` : ''}
+                                    ${member.email ? `<a href="mailto:${member.email}" class="social-btn email" title="Email"><i class="fas fa-envelope"></i></a>` : ''}
                                 </div>
                             </div>
                         </div>
@@ -283,19 +164,10 @@
                 `;
                 membersList.innerHTML += memberCard;
             });
-        } catch (error) {
-            console.error('Erreur lors du chargement des membres:', error);
         }
-    }
 
-    // Générer QR code
-    function generateQR(memberId) {
-        // Rediriger vers l'interface admin pour générer le QR
-        window.open('admin-simple.html', '_blank');
-    }
-
-    // Charger les membres au chargement de la page
-    document.addEventListener('DOMContentLoaded', loadMembers);
-        </script>
+        // Charger les membres au chargement de la page
+        document.addEventListener('DOMContentLoaded', loadMembers);
+    </script>
 </body>
 </html>
