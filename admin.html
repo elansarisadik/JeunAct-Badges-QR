@@ -76,6 +76,38 @@
             text-align: center;
             margin: 20px 0;
         }
+        .alert {
+            border-radius: 15px;
+            border: none;
+            padding: 15px 20px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        .alert-danger {
+            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        .alert-info {
+            background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .btn-group .btn {
+            flex: 1;
+            min-width: 120px;
+            margin: 2px;
+        }
     </style>
 </head>
 <body>
@@ -188,7 +220,11 @@
                 email: "hamza@jeunact.ma",
                 whatsapp: "212600000000",
                 instagram: "hamza_elansari",
-                linkedin: "https://linkedin.com/in/hamza-elansari"
+                linkedin: "https://linkedin.com/in/hamza-elansari",
+                facebook: "hamza.elansari",
+                tiktok: "hamza_jeunact",
+                portfolio: "https://hamza-portfolio.com",
+                photo: "HAMZA.jpg"
             },
             {
                 id: 2,
@@ -197,7 +233,11 @@
                 email: "sadeq@jeunact.ma",
                 whatsapp: "212600000001",
                 instagram: "sadeq_benali",
-                linkedin: "https://linkedin.com/in/sadeq-benali"
+                linkedin: "https://linkedin.com/in/sadeq-benali",
+                facebook: "sadeq.benali",
+                tiktok: "sadeq_jeunact",
+                portfolio: "https://sadeq-portfolio.com",
+                photo: "SADEQ.jpg"
             }
         ];
 
@@ -221,19 +261,21 @@
                                     ${member.instagram ? `<span class="badge bg-light text-dark"><i class="fab fa-instagram me-1"></i>@${member.instagram}</span>` : ''}
                                 </div>
                             </div>
-                            <div class="col-md-4 text-end">
-                                <button class="btn btn-light me-2" onclick="createMemberPage(${member.id})">
-                                    <i class="fas fa-eye me-1"></i>Voir
-                                </button>
-                                <button class="btn btn-light me-2" onclick="generateQR(${member.id})">
-                                    <i class="fas fa-qrcode me-1"></i>Générer QR
-                                </button>
-                                <button class="btn btn-outline-light me-2" onclick="editMember(${member.id})">
-                                    <i class="fas fa-edit me-1"></i>Modifier
-                                </button>
-                                <button class="btn btn-outline-danger" onclick="deleteMember(${member.id})">
-                                    <i class="fas fa-trash me-1"></i>Supprimer
-                                </button>
+                            <div class="col-md-4">
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-light" onclick="window.open('member-viewer.html?id=${member.id}', '_blank')" title="Voir le profil">
+                                        <i class="fas fa-eye me-1"></i>Voir
+                                    </button>
+                                    <button class="btn btn-light" onclick="generateQR(${member.id})" title="Générer QR Code">
+                                        <i class="fas fa-qrcode me-1"></i>QR
+                                    </button>
+                                    <button class="btn btn-outline-light" onclick="editMember(${member.id})" title="Modifier le membre">
+                                        <i class="fas fa-edit me-1"></i>Modifier
+                                    </button>
+                                    <button class="btn btn-outline-danger" onclick="deleteMember(${member.id})" title="Supprimer le membre">
+                                        <i class="fas fa-trash me-1"></i>Supprimer
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -246,7 +288,7 @@
         function generateQR(memberId) {
             const member = members.find(m => m.id === memberId);
             if (member) {
-                const qrUrl = `https://elansarisadq.github.io/JeunAct-Association/member/${memberId}.html`;
+                const qrUrl = `https://elansarisadq.github.io/JeunAct-Association/member-viewer.html?id=${memberId}`;
                 
                 // Créer une modal pour afficher le QR Code
                 const modal = document.createElement('div');
@@ -319,11 +361,63 @@
         function deleteMember(memberId) {
             const member = members.find(m => m.id === memberId);
             if (member) {
-                if (confirm(`Êtes-vous sûr de vouloir supprimer ${member.name} ?`)) {
-                    members = members.filter(m => m.id !== memberId);
-                    loadMembers();
-                    alert('Membre supprimé avec succès!');
-                }
+                // Créer une modal de confirmation stylée
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 9999;
+                `;
+                
+                modal.innerHTML = `
+                    <div style="background: white; border-radius: 20px; padding: 30px; text-align: center; max-width: 400px; margin: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                        <div style="color: #dc3545; font-size: 3rem; margin-bottom: 20px;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h4 style="color: #8B1538; margin-bottom: 15px;">Confirmer la suppression</h4>
+                        <p style="color: #666; margin-bottom: 25px;">
+                            Êtes-vous sûr de vouloir supprimer <strong>${member.name}</strong> ?
+                        </p>
+                        <div style="display: flex; gap: 10px; justify-content: center;">
+                            <button onclick="confirmDelete(${memberId})" 
+                                    style="background: linear-gradient(135deg, #dc3545, #c82333); 
+                                           color: white; border: none; border-radius: 25px; 
+                                           padding: 12px 25px; font-weight: 600; cursor: pointer;">
+                                <i class="fas fa-trash me-1"></i>Supprimer
+                            </button>
+                            <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                                    style="background: linear-gradient(135deg, #8B1538, #E91E63); 
+                                           color: white; border: none; border-radius: 25px; 
+                                           padding: 12px 25px; font-weight: 600; cursor: pointer;">
+                                <i class="fas fa-times me-1"></i>Annuler
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+            }
+        }
+
+        // Fonction pour confirmer la suppression
+        function confirmDelete(memberId) {
+            const member = members.find(m => m.id === memberId);
+            if (member) {
+                members = members.filter(m => m.id !== memberId);
+                loadMembers();
+                
+                // Afficher un message de succès stylé
+                showAlert('success', `Membre "${member.name}" supprimé avec succès !`);
+                
+                // Fermer la modal
+                document.querySelector('[style*="position: fixed"]').remove();
             }
         }
 
@@ -351,8 +445,28 @@
             // Réinitialiser le formulaire
             this.reset();
             
-            alert('Membre ajouté avec succès!');
+            // Afficher un message de succès stylé
+            showAlert('success', 'Membre ajouté avec succès !');
         });
+
+        // Fonction pour afficher des alertes stylées
+        function showAlert(type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-circle' : 'info-circle'} me-2"></i>
+                ${message}
+            `;
+            
+            // Insérer l'alerte en haut de la page
+            const container = document.querySelector('.admin-container');
+            container.insertBefore(alertDiv, container.firstChild);
+            
+            // Supprimer l'alerte après 5 secondes
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
 
         // Charger les membres au chargement de la page
         document.addEventListener('DOMContentLoaded', loadMembers);
