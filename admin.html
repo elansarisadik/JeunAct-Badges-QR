@@ -177,6 +177,7 @@
         </div>
     </div>
 
+    <script src="member-generator.js"></script>
     <script>
         // Données des membres (en réalité, ceci viendrait d'une base de données)
         let members = [
@@ -221,11 +222,17 @@
                                 </div>
                             </div>
                             <div class="col-md-4 text-end">
+                                <button class="btn btn-light me-2" onclick="createMemberPage(${member.id})">
+                                    <i class="fas fa-eye me-1"></i>Voir
+                                </button>
                                 <button class="btn btn-light me-2" onclick="generateQR(${member.id})">
                                     <i class="fas fa-qrcode me-1"></i>Générer QR
                                 </button>
-                                <button class="btn btn-outline-light" onclick="editMember(${member.id})">
+                                <button class="btn btn-outline-light me-2" onclick="editMember(${member.id})">
                                     <i class="fas fa-edit me-1"></i>Modifier
+                                </button>
+                                <button class="btn btn-outline-danger" onclick="deleteMember(${member.id})">
+                                    <i class="fas fa-trash me-1"></i>Supprimer
                                 </button>
                             </div>
                         </div>
@@ -298,9 +305,25 @@
                 document.getElementById('whatsapp').value = member.whatsapp || '';
                 document.getElementById('instagram').value = member.instagram || '';
                 document.getElementById('linkedin').value = member.linkedin || '';
+                document.getElementById('facebook').value = member.facebook || '';
+                document.getElementById('tiktok').value = member.tiktok || '';
+                document.getElementById('portfolio').value = member.portfolio || '';
+                document.getElementById('photo').value = member.photo || '';
                 
                 // Scroll vers le formulaire
                 document.getElementById('addMemberForm').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Fonction pour supprimer un membre
+        function deleteMember(memberId) {
+            const member = members.find(m => m.id === memberId);
+            if (member) {
+                if (confirm(`Êtes-vous sûr de vouloir supprimer ${member.name} ?`)) {
+                    members = members.filter(m => m.id !== memberId);
+                    loadMembers();
+                    alert('Membre supprimé avec succès!');
+                }
             }
         }
 
