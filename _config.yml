@@ -1,0 +1,28 @@
+# Configuration pour GitHub Pages
+title: JeunAct - Badges QR
+description: Système de badges QR pour les membres de l'association JeunAct
+baseurl: "/QR-Code"
+url: "https://votre-username.github.io"
+
+# Configuration du thème (optionnel)
+theme: minima
+
+# Configuration des plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Exclusions pour éviter les conflits
+exclude:
+  - .github
+  - __pycache__
+  - *.py
+  - requirements.txt
+  - data_manager.py
+  - static_generator.py
+  - app.py
+  - app_json.py
+  - config.py
+  - *.db
+  - instance
+  - deploy_local.py

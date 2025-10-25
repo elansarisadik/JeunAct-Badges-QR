@@ -232,13 +232,12 @@
     // Charger et afficher les membres
     async function loadMembers() {
         try {
-            const response = await fetch('members.json');
-            const data = await response.json();
+            const members = [{"id": 1, "member_number": "MEM001", "full_name": "Hamza El Ansari", "role": "Bureau", "position": "Président", "email": "hamza@jeunact.ma", "whatsapp": "212600000000", "instagram": "hamza_elansari", "linkedin": "https://linkedin.com/in/hamza-elansari", "tiktok": "hamza_jeunact", "portfolio": "https://hamza-portfolio.com", "photo": "HAMZA.jpg", "integration_date": "2024-01-15", "bio": "Passionné par l'entrepreneuriat et l'innovation sociale."}, {"id": 2, "member_number": "MEM002", "full_name": "Sadeq Benali", "role": "Bureau", "position": "Vice-Président", "email": "sadeq@jeunact.ma", "whatsapp": "212600000001", "instagram": "sadeq_benali", "linkedin": "https://linkedin.com/in/sadeq-benali", "photo": "SADEQ.jpg", "integration_date": "2024-01-20", "bio": "Expert en développement communautaire et leadership."}];
             const membersList = document.getElementById('membersList');
             
             membersList.innerHTML = '';
             
-            data.members.forEach(member => {
+            members.forEach(member => {
                 const memberCard = `
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="card member-card">
@@ -279,8 +278,8 @@
                                     </button>
                                 </div>
                             </div>
-        </div>
-    </div>
+                        </div>
+                    </div>
                 `;
                 membersList.innerHTML += memberCard;
             });
@@ -291,12 +290,12 @@
 
     // Générer QR code
     function generateQR(memberId) {
-        // Cette fonction sera implémentée dans admin.html
-        alert('Fonctionnalité QR disponible dans l\'interface admin');
+        // Rediriger vers l'interface admin pour générer le QR
+        window.open('admin-simple.html', '_blank');
     }
 
     // Charger les membres au chargement de la page
     document.addEventListener('DOMContentLoaded', loadMembers);
-    </script>
+        </script>
 </body>
 </html>
